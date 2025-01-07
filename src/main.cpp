@@ -1,17 +1,20 @@
+#include "Gameplay/Game.hpp"
 #include "UI/MainMenu.hpp"
+#include "UI/GameUI.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
-#include <iostream>
 
 int main() {
-  MainMenu menu;
+  Game game;
+  MainMenu mainMenu;
+  GameUI gameUI;
 
-  quick_imgui::loop(
-        "Home",
-        [&]() {
-            menu.render();
-        }
-  );
+  quick_imgui::loop("Le Projet Cirque", [&]() {
+    if (mainMenu.running == true)
+      game = mainMenu.render();
+    else if (gameUI.running == true)
+      gameUI.render(game);
+  });
 
   return 0;
 }
