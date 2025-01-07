@@ -6,8 +6,6 @@
 #include "MainMenu.hpp"
 #include "Models/Player.hpp"
 
-Player player1;
-Player player2;
 Game game;
 
 Game MainMenu::render() {
@@ -25,9 +23,9 @@ Game MainMenu::render() {
     } else {
       error_message = false;
       std::cout << "Lancement de la partie." << std::endl;
-      player1.setPseudo(std::string(player_one));
-      player2.setPseudo(std::string(player_two));
-      game.StartGame(player1, player2);
+      game.player1.setPseudo(std::string(player_one));
+      game.player2.setPseudo(std::string(player_two));
+      game.StartGame();
       running = false;
     }
   }
