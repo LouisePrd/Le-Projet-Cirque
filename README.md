@@ -1,7 +1,7 @@
 # Le Projet Cirque
 
 ## 📨 Subject and report
-Project by Jules FOUCHY : https://julesfouchy.github.io/Learn--Clean-Code-With-Cpp/sujet/
+Given by Jules FOUCHY : https://julesfouchy.github.io/Learn--Clean-Code-With-Cpp/sujet/
 
 ## 🎪 Chess Game
 ChatPiteau, Sans Echecs, ‘Cirque d'Hiver’ ... Quite a lot of names for a project... Which doesn't have one yet.<br>
