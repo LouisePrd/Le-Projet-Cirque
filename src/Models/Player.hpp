@@ -5,19 +5,19 @@
 #include <string>
 
 class Player {
-public:
-  Player();
-
-  void setPseudo(std::string pseudo);
-  std::string getPseudo();
-  void setColor(std::string color);
-  std::string getColor();
 
 private:
   int id;
   std::string Pseudo = "";
   std::string Color = "";
   int nbMove;
+
+public:
+  Player();
+  void setPseudo(std::string pseudo);
+  std::string getPseudo();
+  void setColor(std::string color);
+  std::string getColor();
 };
 
 #endif
