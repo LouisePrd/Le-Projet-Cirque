@@ -2,6 +2,8 @@
 #include "Models/Board.hpp"
 #include "Models/Player.hpp"
 
+#include "quick_imgui/quick_imgui.hpp"
+
 #include <iostream>
 
 Game::Game() {
@@ -10,14 +12,9 @@ Game::Game() {
 }
 
 void Game::StartGame(Player &player1, Player &player2) {
+  this->board.createTartan();
   this->player1 = player1;
   this->player2 = player2;
   std::cout << "Starting with :" << player1.getPseudo() << " and "
             << player2.getPseudo() << std::endl;
-  createBoard();
-}
-
-void Game::createBoard() {
-  Board board;
-  board.createTartan();
 }
