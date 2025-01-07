@@ -3,6 +3,7 @@
 #include "Board.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
+#include <string>
 #include <vector>
 
 void Board::createTartan() {
@@ -13,9 +14,9 @@ void Board::createTartan() {
       Case c;
 
       if ((i + j) % 2 == 0)
-        c = {id, i, i, 0, 0};
+        c = {id, i, i, 0};
       else
-        c = {id, i, i, 1, 0};
+        c = {id, i, i, 1};
 
       id++;
       this->cases.push_back(c);

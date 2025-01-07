@@ -2,12 +2,13 @@
 #define BOARD_HPP
 
 #include <vector>
+#include "Piece.hpp"
 struct Case {
     int id;
     int x;
     int y;
     int color;
-    std::string piece;
+    std::optional<Piece> piece;
 };
 class Board {
     public:
