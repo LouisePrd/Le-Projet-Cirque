@@ -3,6 +3,7 @@
 #include "Piece.hpp"
 #include <iostream>
 #include <string>
+#include <vector>
 
 Player::Player(int id) {
   this->id = id;
@@ -20,15 +21,21 @@ void Player::setColor(std::string color) { Color = color; }
 std::string Player::getColor() { return Color; }
 
 void Player::AssignPieces(Board &board) {
-  if (this->id == 1) {
+
+if (this->id == 1) {
     for (int i = 0; i < 8; i++) {
-      Piece p = Piece(i, "P1", "black", i, 6, false, 1);
-      board.cases[getIndex(i, 6)].piece = p;
+      for (int j = 0; j < 2; j++) {
+        Piece p = Piece(i, "P1", "black", i, 6, false, 1);
+        board.cases[getIndex(i, 6+j)].piece = p;
+      }
     }
   } else {
     for (int i = 0; i < 8; i++) {
-      Piece p = Piece(i, "P2", "white", i, 1, false, 2);
-      board.cases[getIndex(i, 1)].piece = p;
+      for (int j = 0; j < 2; j++) {
+        Piece p = Piece(i, "P2", "white", i, 1, false, 2);
+        board.cases[getIndex(i, 1-j)].piece = p;
+      }
     }
   }
+
 }
