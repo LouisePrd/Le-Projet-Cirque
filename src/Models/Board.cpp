@@ -1,16 +1,24 @@
 #include <iostream>
 
+#include "Board.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
-#include "Board.hpp"
+#include <vector>
 
 void Board::createTartan() {
-    int rows = 8;
-    int cols = 8;
+  int id = 0;
 
-    std::cout << "Creating board" << std::endl;
-    ImGui::Begin("Board");
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      Case c;
 
+      if ((i + j) % 2 == 0)
+        c = {id, i, i, 0, 0};
+      else
+        c = {id, i, i, 1, 0};
 
-    ImGui::End();
+      id++;
+      this->cases.push_back(c);
+    }
+  }
 }
