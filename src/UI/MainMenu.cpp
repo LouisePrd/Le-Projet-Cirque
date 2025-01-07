@@ -19,7 +19,7 @@ Game MainMenu::render() {
   ImGui::Text("Player 2 :");
   ImGui::InputText("##player_two", player_two, 256);
 
-  if (ImGui::Button("Start")) {
+  if (ImGui::Button("Start game")) {
     if (!checkPseudo(player_one) || !checkPseudo(player_two)) {
       error_message = true;
     } else {
@@ -28,6 +28,7 @@ Game MainMenu::render() {
       player1.setPseudo(std::string(player_one));
       player2.setPseudo(std::string(player_two));
       game.StartGame(player1, player2);
+      running = false;
     }
   }
 
@@ -43,8 +44,7 @@ Game MainMenu::render() {
 }
 
 bool checkPseudo(char *pseudo) {
-  if (strlen(pseudo) == 0) {
+  if (strlen(pseudo) == 0)
     return false;
-  }
   return true;
 }
