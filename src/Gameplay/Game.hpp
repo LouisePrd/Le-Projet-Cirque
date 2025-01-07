@@ -12,7 +12,9 @@ public:
   Board board;
 
   Game();
-  void StartGame(Player &player1, Player &player2);
+  void StartGame();
 };
+
+int getIndex(int x, int y);
 
 #endif
