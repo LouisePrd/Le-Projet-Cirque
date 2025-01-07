@@ -14,6 +14,7 @@ public:
   std::string getColor();
 
 private:
+  int id;
   std::string Pseudo = "";
   std::string Color = "";
   int nbMove;
