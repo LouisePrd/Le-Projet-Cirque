@@ -8,10 +8,12 @@
 
 Game::Game() : player1(1), player2(2) {}
 
-void Game::StartGame() {
+void Game::displayGame() {
   this->board.createTartan();
   std::cout << "Starting with :" << player1.getPseudo() << " and "
             << player2.getPseudo() << std::endl;
   player1.AssignPieces(this->board);
   player2.AssignPieces(this->board);
 }
+
+void Game::startGame() {}

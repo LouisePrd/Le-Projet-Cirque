@@ -12,7 +12,8 @@ public:
   Board board;
 
   Game();
-  void StartGame();
+  void displayGame();
+  void startGame();
 };
 
 int getIndex(int x, int y);
