@@ -2,6 +2,8 @@
 #include "Gameplay/Game.hpp"
 #include <imgui.h>
 
+#include <iostream>
+
 void GameUI::render(Game &game) {
   ImGui::Begin("Game");
   std::string playerText =
@@ -23,7 +25,7 @@ void GameUI::render(Game &game) {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
       }
 
-      //ImGui::Button(p.type.c_str(), ImVec2(50, 50));
+      ImGui::Button(p.getType().c_str(), ImVec2(50, 50));
       ImGui::PopStyleColor(2);
     } else {
       std::string buttonLabel = "##" + std::to_string(c.id);

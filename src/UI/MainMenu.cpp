@@ -25,7 +25,7 @@ Game MainMenu::render() {
       std::cout << "Lancement de la partie." << std::endl;
       game.player1.setPseudo(std::string(player_one));
       game.player2.setPseudo(std::string(player_two));
-      game.StartGame();
+      game.displayGame();
       running = false;
     }
   }
