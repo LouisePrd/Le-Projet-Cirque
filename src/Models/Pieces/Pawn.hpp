@@ -1,0 +1,21 @@
+#ifndef PAWN_HPP
+#define PAWN_HPP
+
+#include "Models/Piece.hpp"
+#include <utility>
+
+class Pawn : public Piece {
+public:
+  Pawn();
+  Pawn(int id, std::string color, std::string type, int x, int y, bool selected,
+       int idPlayer);
+
+private:
+  std::string type;
+  int range = 1;
+  bool firstMove = true;
+
+  bool isMoveValid(std::pair<int, int> move);
+};
+
+#endif
