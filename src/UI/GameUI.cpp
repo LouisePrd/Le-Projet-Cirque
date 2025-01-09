@@ -6,7 +6,6 @@
 #include <iostream>
 
 void GameUI::render(Game &game) {
-  CaseUI CaseUI;
   ImGui::Begin("Game");
 
   std::string playerText =
@@ -21,7 +20,7 @@ void GameUI::render(Game &game) {
 
   for (int i = 0; i < game.board.cases.size(); i++) {
     Case &c = game.board.cases[i];
-    CaseUI.renderCase(c, game);
+    CaseUI().renderCase(c, game);
 
     if (i % 8 != 7)
       ImGui::SameLine();
