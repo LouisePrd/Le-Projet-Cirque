@@ -10,6 +10,7 @@ public:
   Player player1;
   Player player2;
   Board board;
+  Player *joueurActuel;
 
   Game();
   void displayGame();

@@ -14,6 +14,10 @@ void Game::displayGame() {
             << player2.getPseudo() << std::endl;
   player1.AssignPieces(this->board);
   player2.AssignPieces(this->board);
+  this->joueurActuel = &player1;
 }
 
-void Game::startGame() {}
+void Game::startGame() {
+  std::cout << "Game started" << std::endl;
+
+}
