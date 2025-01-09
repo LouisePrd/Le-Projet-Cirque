@@ -7,7 +7,7 @@
 class Pawn : public Piece {
 public:
   Pawn();
-  Pawn(int id, std::string color, std::string type, int x, int y, bool selected,
+  Pawn(int id, std::string color, int x, int y, bool selected,
        int idPlayer);
 
 private:

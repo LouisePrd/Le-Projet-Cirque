@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-Pawn::Pawn(int id, std::string color, std::string type, int x, int y, bool selected,
+Pawn::Pawn(int id, std::string color, int x, int y, bool selected,
            int idPlayer) {
   this->setId(id);
   this->setColor(color);
@@ -10,7 +10,7 @@ Pawn::Pawn(int id, std::string color, std::string type, int x, int y, bool selec
   this->setY(y);
   this->setSelected(selected);
   this->setIdPlayer(idPlayer);
-  this->setType(type);
+  this->setType("P");
 }
 
 bool Pawn::isMoveValid(std::pair<int, int> move) {
