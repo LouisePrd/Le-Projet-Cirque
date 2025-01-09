@@ -15,11 +15,13 @@ private:
 
 public:
   Player(int id);
+  int getId();
   void setPseudo(std::string pseudo);
   std::string getPseudo();
   void setColor(std::string color);
   std::string getColor();
   void AssignPieces(Board &board);
+  void play();
 };
 
 #endif

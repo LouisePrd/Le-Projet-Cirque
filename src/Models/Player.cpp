@@ -13,6 +13,7 @@ Player::Player(int id) {
 }
 
 int getIndex(int x, int y) { return y * 8 + x; }
+int Player::getId() { return id; }
 
 void Player::setPseudo(std::string pseudo) { Pseudo = pseudo; }
 std::string Player::getPseudo() { return Pseudo; }
@@ -23,13 +24,17 @@ std::string Player::getColor() { return Color; }
 void Player::AssignPieces(Board &board) {
   if (this->id == 1) {
     for (int i = 0; i < 8; i++) {
-      Pawn p = Pawn(i, "white", i, 6, false, 1);
+      Pawn p = Pawn(i, "black", i, 6, false, 1);
       board.cases[getIndex(i, 6)].piece = p;
     }
   } else {
     for (int i = 0; i < 8; i++) {
-      Pawn p = Pawn(i, "black", i, 1, false, 2);
+      Pawn p = Pawn(i, "white", i, 1, false, 2);
       board.cases[getIndex(i, 1)].piece = p;
     }
   }
+}
+
+void Player::play() {
+  std::cout << "Player " << this->Pseudo << " is playing" << std::endl;
 }
