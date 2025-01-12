@@ -14,9 +14,9 @@ void Board::createTartan() {
       Case c;
 
       if ((i + j) % 2 == 0)
-        c = {id, i, i, 0};
+        c = {id, i, j, 0};
       else
-        c = {id, i, i, 1};
+        c = {id, i, j, 1};
 
       id++;
       this->cases.push_back(c);
