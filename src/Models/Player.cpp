@@ -24,13 +24,12 @@ std::string Player::getColor() { return Color; }
 void Player::AssignPieces(Board &board) {
   if (this->id == 1) {
     for (int i = 0; i < 8; i++) {
-      Pawn p = Pawn(i, "black", i, 6, false, 1);
-      board.cases[getIndex(i, 6)].piece = p;
+      board.cases[getIndex(i, 6)].piece = new Pawn(i, "black", i, 6, false, 1);
+          
     }
   } else {
     for (int i = 0; i < 8; i++) {
-      Pawn p = Pawn(i, "white", i, 1, false, 2);
-      board.cases[getIndex(i, 1)].piece = p;
+      board.cases[getIndex(i, 1)].piece = new Pawn(i, "white", i, 1, false, 2);
     }
   }
 }

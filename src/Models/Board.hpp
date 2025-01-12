@@ -8,7 +8,11 @@ struct Case {
     int x;
     int y;
     int color;
-    std::optional<Piece> piece;
+    Piece* piece = nullptr;
+
+    void setColor(int color) {
+        this->color = color;
+    }
 };
 class Board {
     public:
@@ -17,5 +21,4 @@ class Board {
         std::vector<Case> cases;
         void createTartan();
 };
-
 #endif

@@ -36,6 +36,18 @@ bool Pawn::isMoveValid(std::pair<int, int> move) {
         return true;
     }
   }
+  return false;
+}
 
+bool Pawn::move(int x, int y) {
+  std::cout << "Paaaawn";
+  std::pair<int, int> move = std::make_pair(x, y);
+
+  if (isMoveValid(move)) {
+    this->setX(x);
+    this->setY(y);
+    this->firstMove = false;
+    return true;
+  }
   return false;
 }

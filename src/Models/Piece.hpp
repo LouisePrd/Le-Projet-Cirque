@@ -4,7 +4,7 @@
 #include <string>
 
 class Piece {
-private:
+protected:
   int id;
   std::string color;
   int x;
@@ -16,7 +16,7 @@ private:
 public:
   Piece();
   Piece(int id, std::string type, std::string color, int x, int y, bool selected, int idPlayer);
-  bool move(int x, int y);
+  virtual bool move(int x, int y);
 
   // Getters
   int getId() const;

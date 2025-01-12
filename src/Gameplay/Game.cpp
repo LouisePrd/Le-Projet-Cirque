@@ -18,6 +18,7 @@ void Game::displayGame() {
 }
 
 void Game::startGame() {
-  std::cout << "Game started" << std::endl;
+  //std::cout << "Game started" << std::endl;
+  //player1.play();
 
 }

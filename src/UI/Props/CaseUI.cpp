@@ -2,14 +2,15 @@
 #include "Gameplay/Game.hpp"
 #include "UI/GameUI.hpp"
 #include <imgui.h>
+#include <iostream>
 
 #include <iostream>
 
 CaseUI::CaseUI() {}
 
 void CaseUI::renderCase(Case &c, Game &game) {
-  if (c.piece.has_value()) {
-    const Piece &p = c.piece.value();
+  if (c.piece != nullptr) {
+    const Piece &p = *c.piece;
 
     if (p.getColor() == "white") {
       ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
@@ -34,7 +35,10 @@ void CaseUI::renderCase(Case &c, Game &game) {
 
     if (ImGui::IsItemClicked() && p.getIdPlayer() == game.joueurActuel->getId())
       game.caseSelected = &c;
-  } else {
+  } else if (game.caseSelected != nullptr && ImGui::IsItemClicked()) {
+    game.caseSelected->piece->move(c.x, c.y);
+    game.caseSelected = nullptr;
+  } else { // Si case vide
     std::string buttonLabel = "##" + std::to_string(c.id);
     ImGui::Button(buttonLabel.c_str(), this->buttonSize);
   }

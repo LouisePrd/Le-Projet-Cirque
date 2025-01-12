@@ -11,6 +11,7 @@ public:
   Player player2;
   Board board;
   Player *joueurActuel;
+  Case *caseSelected;
 
   Game();
   void displayGame();

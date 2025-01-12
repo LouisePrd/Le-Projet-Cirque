@@ -7,8 +7,8 @@
 class Pawn : public Piece {
 public:
   Pawn();
-  Pawn(int id, std::string color, int x, int y, bool selected,
-       int idPlayer);
+  Pawn(int id, std::string color, int x, int y, bool selected, int idPlayer);
+  bool move(int x, int y) override;
 
 private:
   std::string type;

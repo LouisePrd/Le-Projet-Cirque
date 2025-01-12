@@ -22,6 +22,13 @@ Piece::Piece(int id, std::string type, std::string color, int x, int y, bool sel
   this->type = type;
 }
 
+bool Piece::move(int x, int y) {
+  std::cout << "Move piece" << std::endl;
+  this->x = x;
+  this->y = y;
+  return true;
+}
+
 int Piece::getId() const { return id; }
 std::string Piece::getColor() const { return color; }
 int Piece::getX() const { return x; }
