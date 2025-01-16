@@ -1,6 +1,6 @@
 #include "Game.hpp"
-#include "Models/Board.hpp"
-#include "Models/Player.hpp"
+#include "Board.hpp"
+#include "Player.hpp"
 
 #include "quick_imgui/quick_imgui.hpp"
 

@@ -2,8 +2,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "Models/Board.hpp"
-#include "Models/Player.hpp"
+#include "Board.hpp"
+#include "Player.hpp"
 
 class Game {
 public:
