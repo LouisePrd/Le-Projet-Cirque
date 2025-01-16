@@ -12,7 +12,6 @@ void CaseUI::renderCase(Case &c, Game &game) {
     int pushCount = 0;
 
     if (c.piece != nullptr && c.piece->getType() != "") {
-        std::cout << "Piece : " << c.piece->getType() << std::endl;
         if (c.piece->getColor() == "white") {
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
             ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -43,5 +42,18 @@ void CaseUI::renderCase(Case &c, Game &game) {
     if (pushCount > 0) {
         ImGui::PopStyleColor(pushCount);
     }
+
+    if(ImGui::IsItemClicked()) {
+        selectCase(c, game);
+    }
 }
 
+void CaseUI::selectCase(Case &c, Game &game) {
+    std::cout << "Case selected : " << c.x << " " << c.y << std::endl;
+    if (game.caseSelected == nullptr) {
+        game.caseSelected = &c;
+    } else {
+        game.board.movePiece(game.caseSelected, &c);
+        game.caseSelected = nullptr;
+    }
+}
