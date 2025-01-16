@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Gameplay/Game.hpp"
-#include "Models/Board.hpp"
+#include "Gameplay/Board.hpp"
 #include <imgui.h>
 
 class CaseUI {

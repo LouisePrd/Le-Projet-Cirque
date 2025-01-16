@@ -19,11 +19,12 @@ void GameUI::render(Game &game) {
   ImGui::Text("%s", playerTurn.c_str());
   ImGui::NewLine();
 
-  for (int i = 0; i < game.board.cases.size(); i++) {
-    caseUI.renderCase(game.board.cases[i], game);
-
-    if (i % 8 != 7)
-      ImGui::SameLine();
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 8; j++) {
+      caseUI.renderCase(game.board.cases[i][j], game);
+      if (j < 7)
+        ImGui::SameLine();
+    }
   }
 
   ImGui::End();

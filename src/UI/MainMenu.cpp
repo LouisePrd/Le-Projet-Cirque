@@ -4,7 +4,7 @@
 
 #include "Gameplay/Game.hpp"
 #include "MainMenu.hpp"
-#include "Models/Player.hpp"
+#include "Gameplay/Player.hpp"
 
 Game game;
 

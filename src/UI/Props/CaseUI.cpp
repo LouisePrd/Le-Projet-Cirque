@@ -9,37 +9,39 @@
 CaseUI::CaseUI() {}
 
 void CaseUI::renderCase(Case &c, Game &game) {
-  if (c.piece != nullptr) {
-    const Piece &p = *c.piece;
+    int pushCount = 0;
 
-    if (p.getColor() == "white") {
-      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
-      ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-    } else {
-      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-      ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+    if (c.piece != nullptr && c.piece->getType() != "") {
+        std::cout << "Piece : " << c.piece->getType() << std::endl;
+        if (c.piece->getColor() == "white") {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+        } else {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+        }
+        pushCount += 2;
+
+        if (game.caseSelected == &c) {
+            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+            ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+            pushCount++;
+        }
+
+        ImGui::Button(c.piece->getType().c_str(), this->buttonSize);
+
+        if (game.caseSelected == &c) {
+            ImGui::PopStyleColor(1);
+            ImGui::PopStyleVar();
+            pushCount--;
+        }
+    } else { // Si la case est vide
+        std::string buttonLabel = "##" + std::to_string(c.id);
+        ImGui::Button(buttonLabel.c_str(), this->buttonSize);
     }
 
-    if (game.caseSelected == &c) {
-      ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
-      ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+    if (pushCount > 0) {
+        ImGui::PopStyleColor(pushCount);
     }
-
-    ImGui::Button(p.getType().c_str(), this->buttonSize);
-
-    if (game.caseSelected == &c) {
-      ImGui::PopStyleColor(1);
-      ImGui::PopStyleVar();
-    }
-    ImGui::PopStyleColor(2);
-
-    if (ImGui::IsItemClicked() && p.getIdPlayer() == game.joueurActuel->getId())
-      game.caseSelected = &c;
-  } else if (game.caseSelected != nullptr && ImGui::IsItemClicked()) {
-    game.caseSelected->piece->move(c.x, c.y);
-    game.caseSelected = nullptr;
-  } else { // Si case vide
-    std::string buttonLabel = "##" + std::to_string(c.id);
-    ImGui::Button(buttonLabel.c_str(), this->buttonSize);
-  }
 }
+
