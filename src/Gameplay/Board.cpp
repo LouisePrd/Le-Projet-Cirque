@@ -15,7 +15,7 @@ void Board::createTartan() {
     std::vector<Case> row;
     for (int j = 0; j < 8; ++j) {
       int color = (i + j) % 2;
-      row.emplace_back(id++, j, i, color);
+      row.push_back({id++, j, i, color});
     }
     this->cases.push_back(std::move(row));
   }
