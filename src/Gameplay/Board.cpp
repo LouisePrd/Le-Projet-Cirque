@@ -2,6 +2,7 @@
 
 #include "Board.hpp"
 #include "Piece.hpp"
+#include "Pieces/Pawn.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
 #include <string>
@@ -38,8 +39,7 @@ void Board::displayGame() {
   this->createTartan();
   std::cout << "Starting with :" << player1.getPseudo() << " and "
             << player2.getPseudo() << std::endl;
-  //player1.AssignPieces(this);
-  //player2.AssignPieces(this);
+  this->assignPieces();
   this->joueurActuel = &player1;
 }
 
@@ -52,4 +52,16 @@ void Board::startGame() {
 Board::Board() : player1(1), player2(2), joueurActuel(&player1), caseSelected(nullptr) {
   this->createTartan();
 }
+
+void Board::assignPieces() {
+    for (int i = 0; i < 8; i++) {
+      this->cases[1][i].piece = new Pawn(1, "black", 1, i, false, 1);
+      std::cout << "Piece : " << this->cases[1][i].piece->getType() << " ajoutée en " << this->cases[1][i].x << " " << this->cases[1][i].y << std::endl;
+    }
+    for (int i = 0; i < 8; i++) {
+      this->cases[6][i].piece = new Pawn(1, "white", 6, i, false, 2);
+      std::cout << "Piece : " << this->cases[6][i].piece->getType() << " ajoutée en " << this->cases[6][i].x << " " << this->cases[6][i].y << std::endl;
+    }
+}
+
 
