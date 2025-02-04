@@ -33,3 +33,23 @@ void Board::movePiece(Case *from, Case *to) {
     std::cout << "Invalid move" << std::endl;
   }
 }
+
+void Board::displayGame() {
+  this->createTartan();
+  std::cout << "Starting with :" << player1.getPseudo() << " and "
+            << player2.getPseudo() << std::endl;
+  //player1.AssignPieces(this);
+  //player2.AssignPieces(this);
+  this->joueurActuel = &player1;
+}
+
+void Board::startGame() {
+  //std::cout << "Game started" << std::endl;
+  //player1.play();
+
+}
+
+Board::Board() : player1(1), player2(2), joueurActuel(&player1), caseSelected(nullptr) {
+  this->createTartan();
+}
+

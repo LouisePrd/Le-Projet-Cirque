@@ -1,5 +1,5 @@
 #include "UI/Props/CaseUI.hpp"
-#include "Gameplay/Game.hpp"
+#include "Gameplay/Board.hpp"
 #include "UI/GameUI.hpp"
 #include <imgui.h>
 #include <iostream>
@@ -8,7 +8,7 @@
 
 CaseUI::CaseUI() {}
 
-void CaseUI::renderCase(Case &c, Game &game) {
+void CaseUI::renderCase(Case &c, Board &board) {
     int pushCount = 0;
 
     if (c.piece != nullptr && c.piece->getType() != "") {
@@ -21,7 +21,7 @@ void CaseUI::renderCase(Case &c, Game &game) {
         }
         pushCount += 2;
 
-        if (game.caseSelected == &c) {
+        if (board.caseSelected == &c) {
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
             ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
             pushCount++;
@@ -29,7 +29,7 @@ void CaseUI::renderCase(Case &c, Game &game) {
 
         ImGui::Button(c.piece->getType().c_str(), this->buttonSize);
 
-        if (game.caseSelected == &c) {
+        if (board.caseSelected == &c) {
             ImGui::PopStyleColor(1);
             ImGui::PopStyleVar();
             pushCount--;
@@ -44,16 +44,16 @@ void CaseUI::renderCase(Case &c, Game &game) {
     }
 
     if(ImGui::IsItemClicked()) {
-        selectCase(c, game);
+        selectCase(c, board);
     }
 }
 
-void CaseUI::selectCase(Case &c, Game &game) {
+void CaseUI::selectCase(Case &c, Board &board) {
     std::cout << "Case selected : " << c.x << " " << c.y << std::endl;
-    if (game.caseSelected == nullptr) {
-        game.caseSelected = &c;
+    if (board.caseSelected == nullptr) {
+        board.caseSelected = &c;
     } else {
-        game.board.movePiece(game.caseSelected, &c);
-        game.caseSelected = nullptr;
+        board.movePiece(board.caseSelected, &c);
+        board.caseSelected = nullptr;
     }
 }

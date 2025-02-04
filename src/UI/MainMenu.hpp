@@ -1,9 +1,9 @@
 #pragma once
-#include "Gameplay/Game.hpp"
+#include "Gameplay/Board.hpp"
 
 class MainMenu {
 public:
-  Game render();
+  Board render();
   bool running = true;
 
 private:

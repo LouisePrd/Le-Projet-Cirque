@@ -2,13 +2,13 @@
 #include <imgui.h>
 #include <iostream>
 
-#include "Gameplay/Game.hpp"
+#include "Gameplay/Board.hpp"
 #include "MainMenu.hpp"
 #include "Gameplay/Player.hpp"
 
-Game game;
+Board board;
 
-Game MainMenu::render() {
+Board MainMenu::render() {
   ImGui::Begin("Main Menu");
   ImGui::Text("Le Projet Cirque");
 
@@ -22,9 +22,9 @@ Game MainMenu::render() {
       error_message = true;
     } else {
       error_message = false;
-      game.player1.setPseudo(std::string(player_one));
-      game.player2.setPseudo(std::string(player_two));
-      game.displayGame();
+      board.player1.setPseudo(std::string(player_one));
+      board.player2.setPseudo(std::string(player_two));
+      board.displayGame();
       running = false;
     }
   }
@@ -37,7 +37,7 @@ Game MainMenu::render() {
     exit(0);
 
   ImGui::End();
-  return game;
+  return board;
 }
 
 bool checkPseudo(char *pseudo) {

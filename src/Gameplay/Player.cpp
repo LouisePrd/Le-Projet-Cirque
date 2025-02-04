@@ -21,7 +21,7 @@ std::string Player::getPseudo() { return Pseudo; }
 void Player::setColor(std::string color) { Color = color; }
 std::string Player::getColor() { return Color; }
 
-void Player::AssignPieces(Board &board) {
+/*void Player::AssignPieces(Board &board) {
   if (this->id == 1) {
     for (int i = 0; i < 8; i++) {
       board.cases[1][i].piece = new Pawn(1, "black", 1, i, false, 1);
@@ -33,7 +33,7 @@ void Player::AssignPieces(Board &board) {
       std::cout << "Piece : " << board.cases[6][i].piece->getType() << " ajoutée en " << board.cases[6][i].x << " " << board.cases[6][i].y << std::endl;
     }
   }
-}
+}*/
 
 void Player::play() {
   std::cout << "Player " << this->Pseudo << " is playing" << std::endl;

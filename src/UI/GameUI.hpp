@@ -2,13 +2,13 @@
 #define GAMEUI_HPP
 #pragma once
 
-#include "Gameplay/Game.hpp"
+#include "Gameplay/Board.hpp"
 #include "imgui.h"
 
 class GameUI {
 public:
   bool running = true;
-  void render(Game &game);
+  void render(Board &board);
 };
 
 #endif

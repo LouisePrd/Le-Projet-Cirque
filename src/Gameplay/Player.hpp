@@ -2,7 +2,6 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "Board.hpp"
 #include <string>
 
 class Player {
@@ -20,7 +19,7 @@ public:
   std::string getPseudo();
   void setColor(std::string color);
   std::string getColor();
-  void AssignPieces(Board &board);
+  //void AssignPieces(Board &board);
   void play();
 };
 
