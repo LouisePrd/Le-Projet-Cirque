@@ -28,6 +28,7 @@ void Board::movePiece(Case *from, Case *to) {
     std::cout << "No piece to move" << std::endl;
     return;
   } else if (piece->isMoveValid(std::pair<int, int>(to->x, to->y))) {
+    std::cout << "Valid Move" << std::endl;
     to->piece = piece;
     from->piece = nullptr;
   } else {
@@ -44,8 +45,7 @@ void Board::displayGame() {
 }
 
 void Board::startGame() {
-  //std::cout << "Game started" << std::endl;
-  //player1.play();
+
 
 }
 

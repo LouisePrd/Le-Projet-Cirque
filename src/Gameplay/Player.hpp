@@ -19,7 +19,6 @@ public:
   std::string getPseudo();
   void setColor(std::string color);
   std::string getColor();
-  //void AssignPieces(Board &board);
   void play();
 };
 
