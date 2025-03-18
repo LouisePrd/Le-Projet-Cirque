@@ -1,6 +1,5 @@
 #include "UI/Props/CaseUI.hpp"
 #include "Gameplay/Board.hpp"
-#include "UI/GameUI.hpp"
 #include <imgui.h>
 #include <iostream>
 

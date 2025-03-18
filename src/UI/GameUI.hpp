@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Gameplay/Board.hpp"
-#include "imgui.h"
 
 class GameUI {
 public:
