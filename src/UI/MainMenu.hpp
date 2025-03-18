@@ -3,7 +3,7 @@
 
 class MainMenu {
 public:
-  Board render();
+  void render(Board &board);
   bool running = true;
 
 private:

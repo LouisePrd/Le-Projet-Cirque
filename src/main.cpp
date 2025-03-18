@@ -11,7 +11,7 @@ int main() {
 
   quick_imgui::loop("Le Projet Cirque", [&]() {
     if (mainMenu.running == true)
-      board = mainMenu.render();
+      mainMenu.render(board);
     else if (gameUI.running == true)
       gameUI.render(board);
   });

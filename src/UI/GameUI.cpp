@@ -3,22 +3,22 @@
 #include "UI/Props/CaseUI.hpp"
 #include <imgui.h>
 
-#include <iostream>
-
 void GameUI::render(Board &board) {
   ImGui::Begin("Game");
-  CaseUI caseUI;
+  
+  static CaseUI caseUI;
 
-  std::string playerText =
-      board.player1.getPseudo() + " VS " + board.player2.getPseudo();
-  std::string playerTurn = board.joueurActuel->getPseudo() + "'s turn to play";
-
-  ImGui::Text("%s", playerText.c_str());
+  std::string playerText = board.player1.getPseudo() + " VS " + board.player2.getPseudo();
+  ImGui::TextUnformatted(playerText.c_str());
   ImGui::NewLine();
 
-  ImGui::Text("%s", playerTurn.c_str());
-  ImGui::NewLine();
+  if (board.joueurActuel) {
+    std::string playerTurn = board.joueurActuel->getPseudo() + "'s turn to play";
+    ImGui::TextUnformatted(playerTurn.c_str());
+    ImGui::NewLine();
+  }
 
+  // Affichage du plateau
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 8; j++) {
       caseUI.renderCase(board.cases[i][j], board);
@@ -28,6 +28,4 @@ void GameUI::render(Board &board) {
   }
 
   ImGui::End();
-
-  board.startGame();
 }

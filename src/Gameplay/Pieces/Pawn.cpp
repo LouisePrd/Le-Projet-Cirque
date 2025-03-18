@@ -1,4 +1,5 @@
 #include "Pawn.hpp"
+#include "Gameplay/Board.hpp"
 #include <iostream>
 #include <string>
 
@@ -11,30 +12,36 @@ Pawn::Pawn(int id, std::string color, int x, int y, bool selected,
   this->setSelected(selected);
   this->setIdPlayer(idPlayer);
   this->setType("P");
+  this->firstMove = true;
+
 }
 
-bool Pawn::isMoveValid(std::pair<int, int> move) {
+bool Pawn::isMoveValid(std::pair<int, int> move, Board &board) {
   int currentX = this->getX();
   int currentY = this->getY();
+  int targetX = move.first;
+  int targetY = move.second;
 
-  int range = this->range;
+  int moveDirection = (this->getColor() == "white") ? -1 : 1;
 
-  if (this->getColor() == "black") {
-    if (move.first == currentX && move.second == currentY - range)
-      return true;
-  } else {
-    if (move.first == currentX && move.second == currentY + range)
+  std::cout << "Checking Pawn move from (" << currentX << "," << currentY 
+            << ") to (" << targetX << "," << targetY << ")" << std::endl;
+
+  if (targetX == currentX && targetY == currentY + moveDirection) {
+      std::cout << "Valid: moving forward one square" << std::endl;
       return true;
   }
 
-  if (this->firstMove) {
-    if (this->getColor() == "black") {
-      if (move.first == currentX && move.second == currentY - 2 * range)
-        return true;
-    } else {
-      if (move.first == currentX && move.second == currentY + 2 * range)
-        return true;
-    }
+  if (this->firstMove && targetX == currentX && targetY == currentY + 2 * moveDirection) {
+      std::cout << "Valid: first move two squares forward" << std::endl;
+      return true;
   }
+
+  if (abs(targetX - currentX) == 1 && targetY == currentY + moveDirection) {
+      std::cout << "Valid: diagonal capture" << std::endl;
+      return true;
+  }
+
+  std::cout << "Invalid move" << std::endl;
   return false;
 }

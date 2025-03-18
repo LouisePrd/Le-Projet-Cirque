@@ -8,7 +8,7 @@
 
 Board board;
 
-Board MainMenu::render() {
+void MainMenu::render(Board &board) {
   ImGui::Begin("Main Menu");
   ImGui::Text("Le Projet Cirque");
 
@@ -37,7 +37,6 @@ Board MainMenu::render() {
     exit(0);
 
   ImGui::End();
-  return board;
 }
 
 bool checkPseudo(char *pseudo) {

@@ -28,7 +28,6 @@ public:
   void createTartan();
   void movePiece(Case *from, Case *to);
   void displayGame();
-  void startGame();
   void assignPieces();
   Board();
 };
