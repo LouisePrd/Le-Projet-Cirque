@@ -3,7 +3,6 @@
 #include "Piece.hpp"
 #include "Pieces/Pawn.hpp"
 #include "Pieces/Tower.hpp"
-#include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
 #include <string>
 #include <vector>
@@ -36,9 +35,7 @@ void Board::movePiece(Case *from, Case *to) {
               << from->x << "," << from->y << ") to (" 
               << to->x << "," << to->y << ")" << std::endl;
 
-    if (piece->isMoveValid({to->x, to->y})) {
-        std::cout << "Valid Move" << std::endl;
-
+    if (piece->isMoveValid({to->x, to->y}) && piece->getIdPlayer() == this->joueurActuel->getId()) {
         if (to->piece) {
             delete to->piece;
         }
@@ -48,9 +45,9 @@ void Board::movePiece(Case *from, Case *to) {
         if (Pawn *p = dynamic_cast<Pawn *>(piece)) {
             p->firstMove = false;
         }
-    } else {
-        std::cout << "Invalid move" << std::endl;
+        this->joueurActuel = (this->joueurActuel == &player1) ? &player2 : &player1;
     }
+    this->caseSelected = nullptr;
 }
 
 void Board::displayGame() {
@@ -59,7 +56,7 @@ void Board::displayGame() {
     alreadyStarted = true;
     this->createTartan();
     this->assignPieces();
-    this->joueurActuel = &player1;
+    this->joueurActuel = &player2;
 }
 
 Board::Board()
@@ -69,22 +66,14 @@ Board::Board()
 
 void Board::assignPieces() {
     for (int i = 0; i < 8; i++) {
-        this->cases[1][i].piece = new Pawn(1, "white", i, 1, false, 1);
-        std::cout << "Piece : " << this->cases[1][i].piece->getType()
-                  << " ajoutée en " << this->cases[1][i].x << " "
-                  << this->cases[1][i].y << std::endl;
+        this->cases[1][i].piece = new Pawn(1, "black", i, 1, false, 1);
     }
     for (int i = 0; i < 8; i++) {
-        this->cases[6][i].piece = new Pawn(1, "black", i, 6, false, 2);
-        std::cout << "Piece : " << this->cases[6][i].piece->getType()
-                  << " ajoutée en " << this->cases[6][i].x << " "
-                  << this->cases[6][i].y << std::endl;
+        this->cases[6][i].piece = new Pawn(1, "white", i, 6, false, 2);
     }
     
-    this->cases[0][0].piece = new Tower(1, "white", 0, 0, 1, 1);
-    this->cases[0][7].piece = new Tower(1, "white", 7, 0, 1, 1);
-    this->cases[7][0].piece = new Tower(1, "black", 0, 7, 2, 2);
-    this->cases[7][7].piece = new Tower(1, "black", 7, 7, 2, 2);
-
-    std::cout << "Tours ajoutées aux coins de l'échiquier." << std::endl;
+    this->cases[0][0].piece = new Tower(1, "black", 0, 0, 1, 1);
+    this->cases[0][7].piece = new Tower(1, "black", 7, 0, 1, 1);
+    this->cases[7][0].piece = new Tower(1, "white", 0, 7, 2, 2);
+    this->cases[7][7].piece = new Tower(1, "white", 7, 7, 2, 2);
 }
