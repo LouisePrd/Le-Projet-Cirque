@@ -23,7 +23,6 @@ Piece::Piece(int id, std::string type, std::string color, int x, int y, bool sel
 }
 
 bool Piece::isMoveValid(std::pair<int, int> move) {
-  std::cout << "Piece isMoveValid" << std::endl;
   return true;
 }
 

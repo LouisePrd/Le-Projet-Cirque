@@ -16,13 +16,14 @@ Pawn::Pawn(int id, std::string color, int x, int y, bool selected,
 
 }
 
-bool Pawn::isMoveValid(std::pair<int, int> move, Board &board) {
+bool Pawn::isMoveValid(std::pair<int, int> move) {
   int currentX = this->getX();
   int currentY = this->getY();
   int targetX = move.first;
   int targetY = move.second;
 
   int moveDirection = (this->getColor() == "white") ? -1 : 1;
+  std::cout << "Pawn color: " << this->getColor() << std::endl;
 
   std::cout << "Checking Pawn move from (" << currentX << "," << currentY 
             << ") to (" << targetX << "," << targetY << ")" << std::endl;

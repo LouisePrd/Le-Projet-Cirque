@@ -10,7 +10,7 @@ void CaseUI::renderCase(Case &c, Board &board) {
   int pushCount = 0;
 
   if (c.piece != nullptr && c.piece->getType() != "") {
-    if (c.piece->getColor() == "white") {
+    if (c.piece->getColor() == "black") {
       ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
       ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
     } else {

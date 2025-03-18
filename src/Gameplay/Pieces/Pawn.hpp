@@ -9,7 +9,7 @@ class Pawn : public Piece {
 public:
   Pawn();
   Pawn(int id, std::string color, int x, int y, bool selected, int idPlayer);
-  bool isMoveValid(std::pair<int, int> move, Board &board);
+  bool isMoveValid(std::pair<int, int> move) override;
   bool firstMove = true;
 };
 
