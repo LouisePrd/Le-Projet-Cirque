@@ -1,5 +1,4 @@
 #include "Pawn.hpp"
-#include "Gameplay/Board.hpp"
 #include <iostream>
 #include <string>
 
@@ -22,23 +21,26 @@ bool Pawn::isMoveValid(std::pair<int, int> move) {
   int targetX = move.first;
   int targetY = move.second;
 
-  int moveDirection = (this->getColor() == "white") ? -1 : 1;
+  int moveDirection = (this->getColor() == "black") ? -1 : 1;
+  std::cout << moveDirection << std::endl;
   std::cout << "Pawn color: " << this->getColor() << std::endl;
 
   std::cout << "Checking Pawn move from (" << currentX << "," << currentY 
             << ") to (" << targetX << "," << targetY << ")" << std::endl;
 
-  if (targetX == currentX && targetY == currentY + moveDirection) {
+    
+
+  if (targetX == currentX && targetY == currentY - moveDirection) {
       std::cout << "Valid: moving forward one square" << std::endl;
       return true;
   }
 
-  if (this->firstMove && targetX == currentX && targetY == currentY + 2 * moveDirection) {
+  if (this->firstMove && targetX == currentX && targetY == currentY - 2 * moveDirection) {
       std::cout << "Valid: first move two squares forward" << std::endl;
       return true;
   }
 
-  if (abs(targetX - currentX) == 1 && targetY == currentY + moveDirection) {
+  if (abs(targetX - currentX) == 1 && targetY == currentY - moveDirection) {
       std::cout << "Valid: diagonal capture" << std::endl;
       return true;
   }

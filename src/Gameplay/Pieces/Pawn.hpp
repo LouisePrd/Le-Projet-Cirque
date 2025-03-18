@@ -3,7 +3,6 @@
 
 #include "../Piece.hpp"
 #include <utility>
-#include "../Board.hpp"
 
 class Pawn : public Piece {
 public:
