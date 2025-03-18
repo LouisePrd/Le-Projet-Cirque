@@ -2,6 +2,7 @@
 #include "Board.hpp"
 #include "Piece.hpp"
 #include "Pieces/Pawn.hpp"
+#include "Pieces/Tower.hpp"
 #include "quick_imgui/quick_imgui.hpp"
 #include <imgui.h>
 #include <string>
@@ -79,4 +80,11 @@ void Board::assignPieces() {
                   << " ajoutée en " << this->cases[6][i].x << " "
                   << this->cases[6][i].y << std::endl;
     }
+    
+    this->cases[0][0].piece = new Tower(1, "white", 0, 0, 1, 1);
+    this->cases[0][7].piece = new Tower(1, "white", 7, 0, 1, 1);
+    this->cases[7][0].piece = new Tower(1, "black", 0, 7, 2, 2);
+    this->cases[7][7].piece = new Tower(1, "black", 7, 7, 2, 2);
+
+    std::cout << "Tours ajoutées aux coins de l'échiquier." << std::endl;
 }

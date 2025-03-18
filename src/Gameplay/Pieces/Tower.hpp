@@ -1,5 +1,4 @@
-#ifndef PAWN_HPP
-#define PAWN_HPP
+#pragma once
 
 #include "../Piece.hpp"
 #include <utility>
@@ -16,5 +15,3 @@ private:
   bool firstMove = true;
   bool isMoveValid(std::pair<int, int> move, Board &board);
 };
-
-#endif
