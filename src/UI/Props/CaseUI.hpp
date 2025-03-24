@@ -11,6 +11,7 @@ public:
   CaseUI();
   void renderCase(Case &c, Board &board);
   void selectCase(Case &c, Board &board);
+  bool invalidSelection = false;
 };
 
 #endif

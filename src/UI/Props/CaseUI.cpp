@@ -19,8 +19,15 @@ void CaseUI::renderCase(Case &c, Board &board) {
     pushCount += 2;
 
     if (board.caseSelected == &c) {
+      // Si la case est sélectionnée appartient au joueur actuel
+      if (c.piece->getIdPlayer() == board.joueurActuel->getId()) {
       ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
       ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+      } else {
+        // Si la case est sélectionnée n'appartient pas au joueur actuel
+        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+      }
       pushCount++;
     }
 
