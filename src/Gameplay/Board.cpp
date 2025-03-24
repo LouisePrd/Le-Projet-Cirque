@@ -42,6 +42,9 @@ void Board::movePiece(Case *from, Case *to) {
         to->piece = piece;
         from->piece = nullptr;
 
+        piece->setX(to->x);
+        piece->setY(to->y);
+
         if (Pawn *p = dynamic_cast<Pawn *>(piece)) {
             p->firstMove = false;
         }
