@@ -20,11 +20,41 @@ bool Tower::isMoveValid(std::pair<int, int> move, Board &board) {
   int targetX = move.first;
   int targetY = move.second;
 
-  std::cout << "Checking Rook move from (" << currentX << "," << currentY 
+  std::cout << "Checking Tower move from (" << currentX << "," << currentY 
             << ") to (" << targetX << "," << targetY << ")" << std::endl;
 
+  // Mouvement en ligne droite seulement
   if (currentX != targetX && currentY != targetY) {
-      std::cout << "Invalid move" << std::endl;
+      std::cout << "Invalid move: not a straight line" << std::endl;
+      return false;
+  }
+
+  // Déplacement horizontal
+  if (currentY == targetY) {
+      int direction = (targetX > currentX) ? 1 : -1;
+      for (int x = currentX + direction; x != targetX; x += direction) {
+          if (!board.isCaseEmpty(x, currentY)) {
+              std::cout << "Invalid move: path blocked at (" << x << "," << currentY << ")" << std::endl;
+              return false;
+          }
+      }
+  }
+
+  // Déplacement vertical
+  if (currentX == targetX) {
+      int direction = (targetY > currentY) ? 1 : -1;
+      for (int y = currentY + direction; y != targetY; y += direction) {
+          if (!board.isCaseEmpty(currentX, y)) {
+              std::cout << "Invalid move: path blocked at (" << currentX << "," << y << ")" << std::endl;
+              return false;
+          }
+      }
+  }
+
+  Piece* targetPiece = board.cases[targetY][targetX].piece;
+  // Vérifie si la case cible est occupée par une pièce de la même couleur
+  if (targetPiece && targetPiece->getColor() == this->getColor()) {
+      std::cout << "Invalid move: cannot capture ally at (" << targetX << "," << targetY << ")" << std::endl;
       return false;
   }
 
