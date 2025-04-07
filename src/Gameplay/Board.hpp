@@ -29,6 +29,7 @@ public:
   void movePiece(Case *from, Case *to);
   void displayGame();
   void assignPieces();
+  bool isCaseEmpty(int x, int y);
   Board();
 };
 

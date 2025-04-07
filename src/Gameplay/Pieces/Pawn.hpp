@@ -2,14 +2,16 @@
 #define PAWN_HPP
 
 #include "../Piece.hpp"
-#include <utility>
+#include "../Board.hpp"
 
 class Pawn : public Piece {
 public:
-  Pawn();
-  Pawn(int id, std::string color, int x, int y, bool selected, int idPlayer);
-  bool isMoveValid(std::pair<int, int> move) override;
-  bool firstMove = true;
+    bool firstMove;
+
+public:
+    Pawn(int id, std::string color, int x, int y, bool selected, int idPlayer, Board* board);
+    virtual bool isMoveValid(std::pair<int, int> move, Board& board);
+    void eat(std::pair<int, int> move);
 };
 
 #endif

@@ -35,7 +35,12 @@ void Board::movePiece(Case *from, Case *to) {
               << from->x << "," << from->y << ") to (" 
               << to->x << "," << to->y << ")" << std::endl;
 
-    if (piece->isMoveValid({to->x, to->y}) && piece->getIdPlayer() == this->joueurActuel->getId()) {
+    std::cout << "Piece color: " << piece->getColor() << std::endl;
+    std::cout << "Piece player ID: " << piece->getIdPlayer() << std::endl;
+    std::cout << "Current player ID: " << this->joueurActuel->getId() << std::endl;
+    std::cout << "Is case empty: " << (this->isCaseEmpty(to->x, to->y) ? "Yes" : "No") << std::endl;
+
+    if (piece->isMoveValid({to->x, to->y}, *this ) && piece->getIdPlayer() == this->joueurActuel->getId()) {
         if (to->piece) {
             delete to->piece;
         }
@@ -68,15 +73,14 @@ Board::Board()
 }
 
 void Board::assignPieces() {
-    for (int i = 0; i < 8; i++) {
-        this->cases[1][i].piece = new Pawn(1, "black", i, 1, false, 1);
-    }
-    for (int i = 0; i < 8; i++) {
-        this->cases[6][i].piece = new Pawn(1, "white", i, 6, false, 2);
-    }
-    
-    this->cases[0][0].piece = new Tower(1, "black", 0, 0, 1, 1);
-    this->cases[0][7].piece = new Tower(1, "black", 7, 0, 1, 1);
-    this->cases[7][0].piece = new Tower(1, "white", 0, 7, 2, 2);
-    this->cases[7][7].piece = new Tower(1, "white", 7, 7, 2, 2);
+for (int i = 0; i < 8; i++) {
+    this->cases[6][i].piece = new Pawn(1, "black", i, 6, false, 1, this);
+}
+for (int i = 0; i < 8; i++) {
+    this->cases[1][i].piece = new Pawn(1, "white", i, 1, false, 2, this);
+}
+}
+
+bool Board::isCaseEmpty(int x, int y) {
+    return this->cases[y][x].piece == nullptr;
 }

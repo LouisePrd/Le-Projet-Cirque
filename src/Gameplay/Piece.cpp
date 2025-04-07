@@ -12,6 +12,7 @@ Piece::Piece() {
   type = "";
 }
 
+
 Piece::Piece(int id, std::string type, std::string color, int x, int y, bool selected, int idPlayer) {
   this->id = id;
   this->color = color;
@@ -20,10 +21,6 @@ Piece::Piece(int id, std::string type, std::string color, int x, int y, bool sel
   this->selected = selected;
   this->idPlayer = idPlayer;
   this->type = type;
-}
-
-bool Piece::isMoveValid(std::pair<int, int> move) {
-  return true;
 }
 
 int Piece::getId() const { return id; }

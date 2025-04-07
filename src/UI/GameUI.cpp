@@ -19,13 +19,14 @@ void GameUI::render(Board &board) {
   }
 
   // Affichage du plateau
-  for (int i = 0; i < 8; i++) {
+  for (int i = 7; i >= 0; i--) {  // Inverser la boucle pour afficher de bas en haut
     for (int j = 0; j < 8; j++) {
-      caseUI.renderCase(board.cases[i][j], board);
-      if (j < 7)
-        ImGui::SameLine();
+        caseUI.renderCase(board.cases[i][j], board);  // Afficher les cases de bas en haut
+        if (j < 7)
+            ImGui::SameLine();
     }
-  }
+}
+
 
   ImGui::End();
 }

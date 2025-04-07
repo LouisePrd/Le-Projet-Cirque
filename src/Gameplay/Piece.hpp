@@ -16,7 +16,9 @@ protected:
 public:
   Piece();
   Piece(int id, std::string type, std::string color, int x, int y, bool selected, int idPlayer);
-  virtual bool isMoveValid(std::pair<int, int> move);
+  virtual bool isMoveValid(std::pair<int, int> move, class Board& board) = 0;
+
+  virtual ~Piece() = default;
 
   // Getters
   int getId() const;
