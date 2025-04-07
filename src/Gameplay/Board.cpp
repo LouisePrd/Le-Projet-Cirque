@@ -5,6 +5,7 @@
 #include "Pieces/Knight.hpp"
 #include "Pieces/CrazyBishop.hpp"
 #include "Pieces/King.hpp"
+#include "Pieces/Queen.hpp"
 #include <imgui.h>
 #include <iostream>
 #include <string>
@@ -87,6 +88,7 @@ void Board::assignPieces() {
   this->cases[7][3].piece = new King(1, "black", 2, 7, false, 1, this);
   this->cases[7][2].piece = new CrazyBishop(1, "black", 3, 7, false, 1, this);
   this->cases[7][5].piece = new CrazyBishop(2, "black", 4, 7, false, 1, this);
+  this->cases[7][4].piece = new Queen(1, "black", 4, 7, false, 1, this);
 
   // Joueur 2 (blanc)
   this->cases[0][0].piece = new Tower(3, "white", 0, 0, false, 2);
@@ -96,6 +98,7 @@ void Board::assignPieces() {
   this->cases[0][3].piece = new King(2, "white", 2, 0, false, 2, this);
   this->cases[0][2].piece = new CrazyBishop(3, "white", 3, 0, false, 2, this);
   this->cases[0][5].piece = new CrazyBishop(4, "white", 4, 0, false, 2, this);
+  this->cases[0][4].piece = new Queen(2, "white", 4, 0, false, 2, this);
 }
 
 bool Board::isCaseEmpty(int x, int y) {
