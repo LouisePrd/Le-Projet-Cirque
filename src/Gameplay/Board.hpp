@@ -19,6 +19,7 @@ public:
   int nbCase;
   int nbPiece;
   std::vector<std::vector<Case>> cases;
+  std::vector<Case*> highlightedCases;
 
   Player player1;
   Player player2;
@@ -30,6 +31,7 @@ public:
   void displayGame();
   void assignPieces();
   bool isCaseEmpty(int x, int y);
+  std::vector<Case*> getValidMoves(Piece* piece);
   Board();
 };
 

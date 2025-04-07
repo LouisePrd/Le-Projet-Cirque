@@ -104,3 +104,18 @@ void Board::assignPieces() {
 bool Board::isCaseEmpty(int x, int y) {
   return this->cases[y][x].piece == nullptr;
 }
+
+std::vector<Case*> Board::getValidMoves(Piece* piece) {
+    std::vector<Case*> validMoves;
+    if (!piece) return validMoves;
+
+    for (int y = 0; y < 8; ++y) {
+        for (int x = 0; x < 8; ++x) {
+            if (piece->isMoveValid({x, y}, *this)) {
+                validMoves.push_back(&cases[y][x]);
+            }
+        }
+    }
+
+    return validMoves;
+}
