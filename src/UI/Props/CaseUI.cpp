@@ -41,7 +41,15 @@ void CaseUI::renderCase(Case &c, Board &board) {
 
   } else { // Si la case est vide
     std::string buttonLabel = "##" + std::to_string(c.id);
+    if ((c.x + c.y) % 2 == 0) {
+      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.8039f, 0.7059f, 0.8588f, 1.0f)); // Violet clair
+    } else {
+      ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.7843f, 0.8667f, 1.0f)); // Rose clair
+    }
+
     ImGui::Button(buttonLabel.c_str(), this->buttonSize);
+
+    ImGui::PopStyleColor();
   }
 
   if (pushCount > 0) {
@@ -55,22 +63,34 @@ void CaseUI::renderCase(Case &c, Board &board) {
 
 void CaseUI::selectCase(Case &c, Board &board) {
   std::cout << "Case selected : " << c.x << " " << c.y << std::endl;
-  if (board.caseSelected == nullptr) { // Si aucune case n'est sélectionnée
-    board.caseSelected = &c;
-  } else { // Si une case est déjà sélectionnée
+
+  // Si aucune case n'est sélectionnée
+  if (board.caseSelected == nullptr) {
+    if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
+      // Si la case contient une pièce du joueur actuel
+      board.caseSelected = &c;
+    }
+  } else {
     std::cout << "Case already selected" << std::endl;
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-      std::cout << "Right click" << std::endl;
+    
+    if (board.caseSelected == &c) {
+      std::cout << "Same case selected" << std::endl;
       board.caseSelected = nullptr;
-    } else {
-      if (board.caseSelected == &c) {
-        std::cout << "Same case selected" << std::endl;
-        board.caseSelected = nullptr;
-        return;
-      } 
+      return;
+    }
+
+    if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
+      std::cout << "Can't move to a square occupied by your own piece." << std::endl;
+      return;
+    }
+    
+    if (c.piece == nullptr || c.piece->getIdPlayer() != board.joueurActuel->getId()) {
       std::cout << "Move piece" << std::endl;
       board.movePiece(board.caseSelected, &c);
+
       board.caseSelected = nullptr;
+    } else {
+      std::cout << "Invalid move" << std::endl;
     }
   }
 }
