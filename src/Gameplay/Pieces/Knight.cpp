@@ -11,7 +11,7 @@ Knight::Knight(int id, std::string color, int x, int y, bool selected,
   this->setY(y);
   this->setSelected(selected);
   this->setIdPlayer(idPlayer);
-  this->setType("K");
+  this->setType("C");
 }
 
 bool Knight::isMoveValid(std::pair<int, int> move, Board &board) {

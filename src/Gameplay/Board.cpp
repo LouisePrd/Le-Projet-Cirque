@@ -3,6 +3,7 @@
 #include "Pieces/Pawn.hpp"
 #include "Pieces/Tower.hpp"
 #include "Pieces/Knight.hpp"
+#include "Pieces/King.hpp"
 #include <imgui.h>
 #include <iostream>
 #include <string>
@@ -31,17 +32,6 @@ void Board::movePiece(Case *from, Case *to) {
   if (!piece) {
     return;
   }
-
-  std::cout << "Trying to move " << piece->getType() << " from (" << from->x
-            << "," << from->y << ") to (" << to->x << "," << to->y << ")"
-            << std::endl;
-
-  std::cout << "Piece color: " << piece->getColor() << std::endl;
-  std::cout << "Piece player ID: " << piece->getIdPlayer() << std::endl;
-  std::cout << "Current player ID: " << this->joueurActuel->getId()
-            << std::endl;
-  std::cout << "Is case empty: "
-            << (this->isCaseEmpty(to->x, to->y) ? "Yes" : "No") << std::endl;
 
   if (piece->isMoveValid({to->x, to->y}, *this) &&
       piece->getIdPlayer() == this->joueurActuel->getId()) {
@@ -93,11 +83,14 @@ void Board::assignPieces() {
   this->cases[7][7].piece = new Tower(2, "black", 7, 7, false, 1);
   this->cases[7][1].piece = new Knight(1, "black", 1, 7, false, 1, this);
   this->cases[7][6].piece = new Knight(2, "black", 6, 7, false, 1, this);
+  this->cases[7][2].piece = new King(1, "black", 2, 7, false, 1, this);
 
+  // Joueur 2 (blanc)
   this->cases[0][0].piece = new Tower(3, "white", 0, 0, false, 2);
   this->cases[0][7].piece = new Tower(4, "white", 7, 0, false, 2);
   this->cases[0][1].piece = new Knight(3, "white", 1, 0, false, 2, this);
   this->cases[0][6].piece = new Knight(4, "white", 6, 0, false, 2, this);
+  this->cases[0][2].piece = new King(2, "white", 2, 0, false, 2, this);
 }
 
 bool Board::isCaseEmpty(int x, int y) {
