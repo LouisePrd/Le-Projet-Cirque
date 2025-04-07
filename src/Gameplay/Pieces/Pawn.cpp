@@ -16,8 +16,6 @@ Pawn::Pawn(int id, std::string color, int x, int y, bool selected,
 
 
 bool Pawn::isMoveValid(std::pair<int, int> move, Board& board) {
-    std::cout << ">> Pawn::isMoveValid called" << std::endl;
-
     int currentX = this->getX();
     int currentY = this->getY();
     int targetX = move.first;
@@ -54,7 +52,6 @@ bool Pawn::isMoveValid(std::pair<int, int> move, Board& board) {
             std::cout << "Valid: diagonal capture" << std::endl;
             return true;
         } else {
-            std::cout << "Invalid: no piece to capture" << std::endl;
             return false;
         }
     }
