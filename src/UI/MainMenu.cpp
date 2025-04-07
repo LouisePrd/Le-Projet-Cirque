@@ -9,6 +9,7 @@
 Board board;
 
 void MainMenu::render(Board &board) {
+
   ImGui::Begin("Main Menu");
   ImGui::Text("Le Projet Cirque");
 

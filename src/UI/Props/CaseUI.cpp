@@ -33,6 +33,16 @@ void CaseUI::renderCase(Case &c, Board &board) {
 
     ImGui::Button(c.piece->getType().c_str(), this->buttonSize);
 
+    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && board.caseSelected == &c) {
+      board.caseSelected = nullptr;
+      if (pushCount > 0) {
+        ImGui::PopStyleColor(pushCount);
+      }
+      ImGui::PopStyleVar();
+      return;
+    }
+  
+
     if (board.caseSelected == &c) {
       ImGui::PopStyleColor(1);
       pushCount--;
@@ -70,9 +80,9 @@ void CaseUI::selectCase(Case &c, Board &board) {
       // Si la case contient une pièce du joueur actuel
       board.caseSelected = &c;
     }
-  } else {
-    std::cout << "Case already selected" << std::endl;
     
+  } else { // Si une case est déjà sélectionnée
+
     if (board.caseSelected == &c) {
       std::cout << "Same case selected" << std::endl;
       board.caseSelected = nullptr;
@@ -80,7 +90,7 @@ void CaseUI::selectCase(Case &c, Board &board) {
     }
 
     if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
-      std::cout << "Can't move to a square occupied by your own piece." << std::endl;
+      std::cout << "Same player selected" << std::endl;
       return;
     }
     
