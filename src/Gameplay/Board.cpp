@@ -3,6 +3,7 @@
 #include "Pieces/Pawn.hpp"
 #include "Pieces/Tower.hpp"
 #include "Pieces/Knight.hpp"
+#include "Pieces/CrazyBishop.hpp"
 #include "Pieces/King.hpp"
 #include <imgui.h>
 #include <iostream>
@@ -83,14 +84,18 @@ void Board::assignPieces() {
   this->cases[7][7].piece = new Tower(2, "black", 7, 7, false, 1);
   this->cases[7][1].piece = new Knight(1, "black", 1, 7, false, 1, this);
   this->cases[7][6].piece = new Knight(2, "black", 6, 7, false, 1, this);
-  this->cases[7][2].piece = new King(1, "black", 2, 7, false, 1, this);
+  this->cases[7][3].piece = new King(1, "black", 2, 7, false, 1, this);
+  this->cases[7][2].piece = new CrazyBishop(1, "black", 3, 7, false, 1, this);
+  this->cases[7][5].piece = new CrazyBishop(2, "black", 4, 7, false, 1, this);
 
   // Joueur 2 (blanc)
   this->cases[0][0].piece = new Tower(3, "white", 0, 0, false, 2);
   this->cases[0][7].piece = new Tower(4, "white", 7, 0, false, 2);
   this->cases[0][1].piece = new Knight(3, "white", 1, 0, false, 2, this);
   this->cases[0][6].piece = new Knight(4, "white", 6, 0, false, 2, this);
-  this->cases[0][2].piece = new King(2, "white", 2, 0, false, 2, this);
+  this->cases[0][3].piece = new King(2, "white", 2, 0, false, 2, this);
+  this->cases[0][2].piece = new CrazyBishop(3, "white", 3, 0, false, 2, this);
+  this->cases[0][5].piece = new CrazyBishop(4, "white", 4, 0, false, 2, this);
 }
 
 bool Board::isCaseEmpty(int x, int y) {
