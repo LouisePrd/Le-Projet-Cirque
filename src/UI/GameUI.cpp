@@ -18,6 +18,9 @@ void GameUI::render(Board &board) {
     ImGui::NewLine();
   }
 
+  // Separation Texte-Plateau
+  ImGui::Separator();
+
   // Affichage du plateau
   for (int i = 7; i >= 0; i--) {  // Inverser la boucle pour afficher de bas en haut
     for (int j = 0; j < 8; j++) {

@@ -11,9 +11,10 @@ void CaseUI::renderCase(Case &c, Board &board) {
   // Appliquer surbrillance si la case est dans les destinations valides
   bool isHighlighted = std::find(board.highlightedCases.begin(), board.highlightedCases.end(), &c) != board.highlightedCases.end();
   if (isHighlighted) {
-    std::cout << "highlighted " << c.x << " " << c.y << std::endl;
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 0.5f)); // Vert transparent
-    pushCount++;
+    // On ajoute un contour orange
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 2.0f);
+    //pushCount++;
   }
 
   // Affichage pièce
@@ -70,6 +71,11 @@ void CaseUI::renderCase(Case &c, Board &board) {
   if (ImGui::IsItemClicked()) {
     selectCase(c, board);
   }
+
+  if (isHighlighted) {
+    ImGui::PopStyleColor(1);
+    ImGui::PopStyleVar(); 
+  }
 }
 
 void CaseUI::selectCase(Case &c, Board &board) {
@@ -80,32 +86,32 @@ void CaseUI::selectCase(Case &c, Board &board) {
     if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
       // Si la case contient une pièce du joueur actuel
       board.caseSelected = &c;
-      board.highlightedCases = board.getValidMoves(c.piece); // Mise à jour ici
+      board.highlightedCases = board.getValidMoves(c.piece);
     }
 
   } else { // Si une case est déjà sélectionnée
 
     if (board.caseSelected == &c) {
-      std::cout << "Same case selected" << std::endl;
+      // std::cout << "Same case selected" << std::endl;
       board.caseSelected = nullptr;
       board.highlightedCases.clear();
       return;
     }
 
     if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
-      std::cout << "Same player selected" << std::endl;
+      // std::cout << "Same player selected" << std::endl;
       board.highlightedCases.clear();
       return;
     }
 
     if (c.piece == nullptr || c.piece->getIdPlayer() != board.joueurActuel->getId()) {
-      std::cout << "Move piece" << std::endl;
+      // std::cout << "Move piece" << std::endl;
       board.movePiece(board.caseSelected, &c);
 
       board.caseSelected = nullptr;
       board.highlightedCases.clear();
     } else {
-      std::cout << "Invalid move" << std::endl;
+      // std::cout << "Invalid move" << std::endl;
       board.highlightedCases.clear();
     }
   }
