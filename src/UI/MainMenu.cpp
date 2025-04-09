@@ -5,6 +5,7 @@
 #include "Gameplay/Board.hpp"
 #include "MainMenu.hpp"
 #include "Gameplay/Player.hpp"
+#include "Core/GameState.hpp"
 
 Board board;
 
@@ -26,9 +27,10 @@ void MainMenu::render(Board &board) {
       board.player1.setPseudo(std::string(player_one));
       board.player2.setPseudo(std::string(player_two));
       board.displayGame();
-      running = false;
+      currentGameState = GameState::Playing;
     }
   }
+
 
   if (error_message)
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),

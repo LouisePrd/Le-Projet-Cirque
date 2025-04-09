@@ -37,6 +37,14 @@ void Board::movePiece(Case *from, Case *to) {
 
   if (piece->isMoveValid({to->x, to->y}, *this) &&
       piece->getIdPlayer() == this->joueurActuel->getId()) {
+    
+    // Vérifie si la pièce ciblée est un roi
+    if (to->piece && to->piece->getType() == "K") {
+      std::cout << "Victoire ! Le joueur " << joueurActuel->getId() << " a capturé le roi adverse." << std::endl;
+      isGameOver = true;
+      winnerId = joueurActuel->getId();
+    }
+
     if (to->piece) {
       delete to->piece;
     }
@@ -49,20 +57,23 @@ void Board::movePiece(Case *from, Case *to) {
     if (Pawn *p = dynamic_cast<Pawn *>(piece)) {
       p->firstMove = false;
     }
+
+    // Change le joueur actif
     this->joueurActuel = (this->joueurActuel == &player1) ? &player2 : &player1;
   }
+
   this->caseSelected = nullptr;
 }
 
+
 void Board::displayGame() {
-  static bool alreadyStarted = false;
-  if (alreadyStarted)
-    return;
-  alreadyStarted = true;
   this->createTartan();
   this->assignPieces();
   this->joueurActuel = &player2;
+  this->isGameOver = false;
+  this->winnerId = 0;
 }
+
 
 Board::Board()
     : player1(1), player2(2), joueurActuel(&player1), caseSelected(nullptr) {

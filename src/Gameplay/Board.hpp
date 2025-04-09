@@ -18,6 +18,8 @@ class Board {
 public:
   int nbCase;
   int nbPiece;
+  int winnerId = 0;
+  bool isGameOver = false;
   std::vector<std::vector<Case>> cases;
   std::vector<Case*> highlightedCases;
 

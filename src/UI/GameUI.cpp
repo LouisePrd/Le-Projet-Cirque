@@ -1,6 +1,7 @@
 #include "UI/GameUI.hpp"
 #include "Gameplay/Board.hpp"
 #include "UI/Props/CaseUI.hpp"
+#include "Core/GameState.hpp"
 #include <imgui.h>
 
 void GameUI::render(Board &board) {
@@ -17,6 +18,31 @@ void GameUI::render(Board &board) {
     ImGui::TextUnformatted(playerTurn.c_str());
     ImGui::NewLine();
   }
+
+  if (board.isGameOver) {
+    ImGui::OpenPopup("Game Over");
+  }
+  
+  if (ImGui::BeginPopupModal("Game Over", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+      "Player %d has won the game by capturing the King!", board.winnerId);
+  
+    if (ImGui::Button("Rejouer")) {
+      board.displayGame(); // relance la partie
+      ImGui::CloseCurrentPopup();
+    }
+  
+    ImGui::SameLine();
+  
+    if (ImGui::Button("Menu principal")) {
+      currentGameState = GameState::Menu;
+      board.isGameOver = false;
+      board = Board(); // reset complet du plateau
+      ImGui::CloseCurrentPopup();
+    }
+  
+    ImGui::EndPopup();
+  }  
 
   // Separation Texte-Plateau
   ImGui::Separator();

@@ -2,7 +2,7 @@
 #include "Gameplay/Board.hpp"
 #include "UI/GameUI.hpp"
 #include "quick_imgui/quick_imgui.hpp"
-#include <imgui.h>
+#include "Core/GameState.hpp"
 
 int main() {
   Board board;
@@ -10,9 +10,9 @@ int main() {
   GameUI gameUI;
 
   quick_imgui::loop("Le Projet Cirque", [&]() {
-    if (mainMenu.running == true)
+    if (currentGameState == GameState::Menu)
       mainMenu.render(board);
-    else if (gameUI.running == true)
+    else if (currentGameState == GameState::Playing)
       gameUI.render(board);
   });
 
