@@ -83,11 +83,10 @@ void CaseUI::selectCase(Case &c, Board &board) {
 
   // Si aucune case n'est sélectionnée
   if (board.caseSelected == nullptr) {
-    if (c.piece != nullptr && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
-      // Si la case contient une pièce du joueur actuel
+    if (c.piece && c.piece->getIdPlayer() == board.joueurActuel->getId()) {
       board.caseSelected = &c;
-      board.highlightedCases = board.getValidMoves(c.piece);
-    }
+      board.highlightedCases = board.getValidMoves(c.piece.get());
+  }
 
   } else { // Si une case est déjà sélectionnée
 

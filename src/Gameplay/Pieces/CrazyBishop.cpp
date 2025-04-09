@@ -1,6 +1,7 @@
 #include "CrazyBishop.hpp"
 #include <iostream>
 #include <string>
+#include <cmath>
 
 CrazyBishop::CrazyBishop(int id, std::string color, int x, int y, bool selected,
                          int idPlayer, Board *board) {
@@ -26,16 +27,14 @@ bool CrazyBishop::isMoveValid(std::pair<int, int> move, Board &board) {
   int dx = targetX - startX;
   int dy = targetY - startY;
 
-  if (abs(dx) != abs(dy)) {
+  if (std::abs(dx) != std::abs(dy)) {
     std::cout << "Pas une diagonale valide." << std::endl;
     return false;
   }
 
-  // Direction (normée à ±1)
   int stepX = (dx > 0) ? 1 : -1;
   int stepY = (dy > 0) ? 1 : -1;
 
-  // Vérifie chaque case entre départ et arrivée (exclue)
   int x = startX + stepX;
   int y = startY + stepY;
 
@@ -45,7 +44,7 @@ bool CrazyBishop::isMoveValid(std::pair<int, int> move, Board &board) {
       return false;
     }
 
-    if (board.cases[y][x].piece != nullptr) {
+    if (board.cases[y][x].piece) {
       std::cout << "Obstacle sur le chemin en (" << x << "," << y << ")" << std::endl;
       return false;
     }
@@ -54,14 +53,11 @@ bool CrazyBishop::isMoveValid(std::pair<int, int> move, Board &board) {
     y += stepY;
   }
 
-  // Vérifie la case d'arrivée
-  Piece* targetPiece = board.cases[targetY][targetX].piece;
-  if (targetPiece != nullptr && targetPiece->getColor() == this->getColor()) {
+  const auto& targetPiece = board.cases[targetY][targetX].piece;
+  if (targetPiece && targetPiece->getColor() == this->getColor()) {
     std::cout << "Case finale occupée par une pièce alliée." << std::endl;
     return false;
   }
 
   return true;
 }
-
-

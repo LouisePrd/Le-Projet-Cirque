@@ -2,6 +2,7 @@
 #include "Gameplay/Board.hpp"
 #include <iostream>
 #include <string>
+#include <cmath>
 
 Knight::Knight(int id, std::string color, int x, int y, bool selected,
                int idPlayer, Board *board) {
@@ -23,11 +24,10 @@ bool Knight::isMoveValid(std::pair<int, int> move, Board &board) {
   std::cout << "Checking Knight move from (" << currentX << "," << currentY
             << ") to (" << targetX << "," << targetY << ")" << std::endl;
 
-  // Vérifie si le mouvement est en forme de L
-  if ((abs(targetX - currentX) == 2 && abs(targetY - currentY) == 1) ||
-      (abs(targetX - currentX) == 1 && abs(targetY - currentY) == 2)) {
-    // Vérifie si la case cible est occupée par une pièce de la même couleur
-    Piece *targetPiece = board.cases[targetY][targetX].piece;
+  if ((std::abs(targetX - currentX) == 2 && std::abs(targetY - currentY) == 1) ||
+      (std::abs(targetX - currentX) == 1 && std::abs(targetY - currentY) == 2)) {
+
+    const auto& targetPiece = board.cases[targetY][targetX].piece;
     if (targetPiece && targetPiece->getColor() == this->getColor()) {
       std::cout << "Invalid move: cannot capture ally at (" << targetX << ","
                 << targetY << ")" << std::endl;
@@ -39,4 +39,3 @@ bool Knight::isMoveValid(std::pair<int, int> move, Board &board) {
   std::cout << "Invalid move: not a valid knight move" << std::endl;
   return false;
 }
-

@@ -37,7 +37,7 @@ void GameUI::render(Board &board) {
     if (ImGui::Button("Menu principal")) {
       currentGameState = GameState::Menu;
       board.isGameOver = false;
-      board = Board(); // reset complet du plateau
+      board.reset();
       ImGui::CloseCurrentPopup();
     }
   
