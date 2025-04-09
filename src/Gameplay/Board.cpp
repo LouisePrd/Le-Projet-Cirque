@@ -81,34 +81,36 @@ Board::Board()
 }
 
 void Board::assignPieces() {
-  // Assignation des pions aux joueurs
+  // PIONS
   for (int i = 0; i < 8; i++) {
-    this->cases[6][i].piece = new Pawn(1, "black", i, 6, false, 1, this);
-  }
-  for (int i = 0; i < 8; i++) {
-    this->cases[1][i].piece = new Pawn(1, "white", i, 1, false, 2, this);
+    this->cases[6][i].piece = new Pawn(i + 1, "black", i, 6, false, 1, this);
+    this->cases[1][i].piece = new Pawn(i + 1, "white", i, 1, false, 2, this);
   }
 
-  // Assignation des tours aux joueurs
-
-  // Joueur 1 (noir)
+  // TOURS
   this->cases[7][0].piece = new Tower(1, "black", 0, 7, false, 1);
   this->cases[7][7].piece = new Tower(2, "black", 7, 7, false, 1);
-  this->cases[7][1].piece = new Knight(1, "black", 1, 7, false, 1, this);
-  this->cases[7][6].piece = new Knight(2, "black", 6, 7, false, 1, this);
-  this->cases[7][3].piece = new King(1, "black", 2, 7, false, 1, this);
-  this->cases[7][2].piece = new CrazyBishop(1, "black", 3, 7, false, 1, this);
-  this->cases[7][5].piece = new CrazyBishop(2, "black", 4, 7, false, 1, this);
-  this->cases[7][4].piece = new Queen(1, "black", 4, 7, false, 1, this);
-
-  // Joueur 2 (blanc)
   this->cases[0][0].piece = new Tower(3, "white", 0, 0, false, 2);
   this->cases[0][7].piece = new Tower(4, "white", 7, 0, false, 2);
+
+  // CAVALIERS
+  this->cases[7][1].piece = new Knight(1, "black", 1, 7, false, 1, this);
+  this->cases[7][6].piece = new Knight(2, "black", 6, 7, false, 1, this);
   this->cases[0][1].piece = new Knight(3, "white", 1, 0, false, 2, this);
   this->cases[0][6].piece = new Knight(4, "white", 6, 0, false, 2, this);
-  this->cases[0][3].piece = new King(2, "white", 2, 0, false, 2, this);
-  this->cases[0][2].piece = new CrazyBishop(3, "white", 3, 0, false, 2, this);
-  this->cases[0][5].piece = new CrazyBishop(4, "white", 4, 0, false, 2, this);
+
+  // FOUS (CrazyBishops)
+  this->cases[7][2].piece = new CrazyBishop(1, "black", 2, 7, false, 1, this); // ← x=2, y=7
+  this->cases[7][5].piece = new CrazyBishop(2, "black", 5, 7, false, 1, this); // ← x=5, y=7
+  this->cases[0][2].piece = new CrazyBishop(3, "white", 2, 0, false, 2, this); // ← x=2, y=0
+  this->cases[0][5].piece = new CrazyBishop(4, "white", 5, 0, false, 2, this); // ← x=5, y=0
+
+  // ROIS
+  this->cases[7][3].piece = new King(1, "black", 3, 7, false, 1, this);
+  this->cases[0][3].piece = new King(2, "white", 3, 0, false, 2, this);
+
+  // DAMES
+  this->cases[7][4].piece = new Queen(1, "black", 4, 7, false, 1, this);
   this->cases[0][4].piece = new Queen(2, "white", 4, 0, false, 2, this);
 }
 

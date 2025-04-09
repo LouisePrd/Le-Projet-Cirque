@@ -14,38 +14,54 @@ CrazyBishop::CrazyBishop(int id, std::string color, int x, int y, bool selected,
 }
 
 bool CrazyBishop::isMoveValid(std::pair<int, int> move, Board &board) {
-  // Valide = diagonale
-  std::cout << "Checking CrazyBishop move from (" << this->getX() << ","
-            << this->getY() << ") to (" << move.first << "," << move.second
-            << ")" << std::endl;
-  int currentX = this->getX();
-  int currentY = this->getY();
+  int startX = this->getX();
+  int startY = this->getY();
   int targetX = move.first;
   int targetY = move.second;
 
-  if (abs(targetX - currentX) == abs(targetY - currentY)) {
-    int dx = (targetX - currentX) > 0 ? 1 : -1;
-    int dy = (targetY - currentY) > 0 ? 1 : -1;
+  std::cout << "CrazyBishop from (" << startX << "," << startY
+            << ") to (" << targetX << "," << targetY << ")" << std::endl;
 
-    int x = currentX + dx;
-    int y = currentY + dy;
+  // Mouvement strictement diagonal
+  int dx = targetX - startX;
+  int dy = targetY - startY;
 
-    while (x != targetX && y != targetY) {
-      if (board.cases[y][x].piece != nullptr) {
-        return false; // Obstacle
-      }
-      x += dx;
-      y += dy;
-    }
+  if (abs(dx) != abs(dy)) {
+    std::cout << "Pas une diagonale valide." << std::endl;
+    return false;
+  }
 
-    Piece *targetPiece = board.cases[targetY][targetX].piece;
-    if (targetPiece && targetPiece->getColor() == this->getColor()) {
+  // Direction (normée à ±1)
+  int stepX = (dx > 0) ? 1 : -1;
+  int stepY = (dy > 0) ? 1 : -1;
+
+  // Vérifie chaque case entre départ et arrivée (exclue)
+  int x = startX + stepX;
+  int y = startY + stepY;
+
+  while (x != targetX && y != targetY) {
+    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+      std::cerr << "Débordement hors du plateau (" << x << "," << y << ")" << std::endl;
       return false;
     }
 
-    return true;
+    if (board.cases[y][x].piece != nullptr) {
+      std::cout << "Obstacle sur le chemin en (" << x << "," << y << ")" << std::endl;
+      return false;
+    }
+
+    x += stepX;
+    y += stepY;
   }
 
-  std::cout << "Move too crazy for this crazy bishop" << std::endl;
-  return false;
+  // Vérifie la case d'arrivée
+  Piece* targetPiece = board.cases[targetY][targetX].piece;
+  if (targetPiece != nullptr && targetPiece->getColor() == this->getColor()) {
+    std::cout << "Case finale occupée par une pièce alliée." << std::endl;
+    return false;
+  }
+
+  return true;
 }
+
+
