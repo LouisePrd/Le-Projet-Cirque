@@ -4,7 +4,6 @@
 #include <vector>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
-#include <tiny_obj_loader.h>
 
 #include "Renderer/Camera.hpp"
 
@@ -23,7 +22,6 @@ private:
 
     GLuint shaderProgram = 0;
 
-    bool loadOBJ(const std::string& path);
     void setupBuffers(
         const std::vector<float>& vertices,
         const std::vector<unsigned int>& indices);

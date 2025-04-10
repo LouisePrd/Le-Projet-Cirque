@@ -9,7 +9,7 @@ Camera::Camera()
 
 void Camera::update() {
     if (currentMode == Mode::ORBITAL) {
-        angle += 0.01f;
+        angle += 0.0005f; 
         float radius = 8.0f;
         position.x = sin(angle) * radius;
         position.z = cos(angle) * radius;

@@ -29,7 +29,7 @@ float skyboxVertices[] = {
 
 void Skybox::load(const std::vector<std::string>& faces) {
     cubemapTexture = loadCubemap(faces);
-    shaderProgram = loadShader("Assets/shaders/skybox.vert", "Assets/shaders/skybox.frag");
+    shaderProgram = loadShader("Assets/Shaders/skybox.vert", "Assets/Shaders/skybox.frag");
     setupMesh();
 }
 
@@ -73,7 +73,8 @@ unsigned int Skybox::loadCubemap(const std::vector<std::string>& faces) {
                          0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         } else {
-            std::cerr << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+            std::cerr << "❌ Failed to load cubemap texture at path: " << faces[i] << std::endl;
+            std::cerr << "Reason: " << stbi_failure_reason() << std::endl;
             stbi_image_free(data);
         }
     }

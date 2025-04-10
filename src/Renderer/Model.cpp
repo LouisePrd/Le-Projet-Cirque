@@ -5,13 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Model::Model(const std::string& path) {
-    if (!loadOBJ(path)) {
-        std::cerr << "Failed to load model: " << path << std::endl;
-    }
-    shaderProgram = loadShader("Assets/shaders/simple.vert", "Assets/shaders/simple.frag");
-}
-
 Model::~Model() {
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
@@ -33,34 +26,6 @@ void Model::draw(const Camera& camera) {
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-}
-
-bool Model::loadOBJ(const std::string& path) {
-    tinyobj::attrib_t attrib;
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-    std::string warn, err;
-
-    bool success = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
-    if (!warn.empty()) std::cout << "[TinyObjLoader] Warning: " << warn << std::endl;
-    if (!err.empty()) std::cerr << "[TinyObjLoader] Error: " << err << std::endl;
-    if (!success) return false;
-
-    std::vector<float> vertices;
-    std::vector<unsigned int> indices;
-
-    for (const auto& shape : shapes) {
-        for (const auto& index : shape.mesh.indices) {
-            vertices.push_back(attrib.vertices[3 * index.vertex_index + 0]);
-            vertices.push_back(attrib.vertices[3 * index.vertex_index + 1]);
-            vertices.push_back(attrib.vertices[3 * index.vertex_index + 2]);
-            indices.push_back(indices.size());
-        }
-    }
-
-    indexCount = indices.size();
-    setupBuffers(vertices, indices);
-    return true;
 }
 
 void Model::setupBuffers(const std::vector<float>& vertices, const std::vector<unsigned int>& indices) {

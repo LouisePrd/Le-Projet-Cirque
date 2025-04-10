@@ -1,6 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <unistd.h>
+#include <filesystem>
 
 #include "UI/MainMenu.hpp"
 #include "UI/GameUI.hpp"
@@ -11,6 +13,7 @@
 #include "Renderer/Camera.hpp"
 #include "ImGuiLayer/ImGuiLayer.hpp"
 #include "Renderer/Model.hpp"
+#include "Renderer/ChessBoard.hpp"
 
 const unsigned int WIDTH = 1280;
 const unsigned int HEIGHT = 720;
@@ -29,7 +32,29 @@ void processInput(GLFWwindow* window) {
         glfwSetWindowShouldClose(window, true);
 }
 
+void setWorkingDirectoryToProjectRoot() {
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != nullptr) {
+        std::string path(cwd);
+        if (path.find("/bin/Debug") != std::string::npos) {
+            std::string root = path.substr(0, path.find("/bin/Debug"));
+            chdir(root.c_str());
+            std::cout << "[Init] Changed working directory to: " << root << std::endl;
+        } else if (path.find("/build") != std::string::npos) {
+            std::string root = path.substr(0, path.find("/build"));
+            chdir(root.c_str());
+            std::cout << "[Init] Changed working directory to: " << root << std::endl;
+        } else {
+            std::cout << "[Init] Current working directory: " << path << std::endl;
+        }
+    } else {
+        perror("getcwd() error");
+    }
+}
+
 int main() {
+    setWorkingDirectoryToProjectRoot();
+
     // === INIT GLFW & OPENGL ===
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -67,7 +92,7 @@ int main() {
         "Assets/textures/skybox/back.jpg"
     });
 
-    Model plateau("Assets/models/plateau.obj"); // ON VA LOAD LE PLATEAU LÀ !!
+    ChessBoard chessboard;
 
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
@@ -79,7 +104,7 @@ int main() {
 
         camera.update();    
         skybox.draw(camera);
-        plateau.draw(camera);
+        chessboard.draw(camera);
 
         // === RENDER IMGUI ===
         ImGuiLayer::beginFrame();
