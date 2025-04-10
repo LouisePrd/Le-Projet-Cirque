@@ -37,3 +37,5 @@ endif()
 # STB
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/stb)
 
+# TinyObjLoader
+target_include_directories(${PROJECT_NAME} PRIVATE lib/tinyobjloader)

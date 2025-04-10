@@ -10,6 +10,7 @@
 #include "Renderer/Skybox.hpp"
 #include "Renderer/Camera.hpp"
 #include "ImGuiLayer/ImGuiLayer.hpp"
+#include "Renderer/Model.hpp"
 
 const unsigned int WIDTH = 1280;
 const unsigned int HEIGHT = 720;
@@ -66,6 +67,8 @@ int main() {
         "Assets/textures/skybox/back.jpg"
     });
 
+    Model plateau("Assets/models/plateau.obj"); // ON VA LOAD LE PLATEAU LÀ !!
+
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -74,8 +77,9 @@ int main() {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        camera.update();      // logique à faire dans Camera.cpp
-        skybox.draw(camera);  // rendu OpenGL
+        camera.update();    
+        skybox.draw(camera);
+        plateau.draw(camera);
 
         // === RENDER IMGUI ===
         ImGuiLayer::beginFrame();
