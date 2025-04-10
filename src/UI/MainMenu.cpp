@@ -7,7 +7,7 @@
 #include "Gameplay/Player.hpp"
 #include "Core/GameState.hpp"
 
-Board board;
+extern Board board;
 
 void MainMenu::render(Board &board) {
 
