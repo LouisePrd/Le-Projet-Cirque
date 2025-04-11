@@ -129,7 +129,7 @@ int main() {
     tower2.setScale(1.6f);
     tower2.setPosition(boardToWorld(6.5f, -0.5f, 1.6f)); 
 
-        // === CHEVAL (KNIGHT) ===
+    // === CHEVAL (KNIGHT) ===
     // ------- Knight1
     Model knight1("Assets/models/knight.obj");
     knight1.setScale(1.6f);
@@ -140,6 +140,27 @@ int main() {
     knight2.setScale(1.6f);
     knight2.setPosition(boardToWorld(5.5f, -1.5f, 1.6f));
 
+    // === CRAZY BISHOP ===
+    // ------- CrazyBishop1
+    Model bishop1("Assets/models/bishop.obj");
+    bishop1.setScale(1.6f);
+    bishop1.setPosition(boardToWorld(1.5f, -2.0f, 1.6f));
+
+    // ------- CrazyBishop2
+    Model bishop2("Assets/models/bishop.obj");
+    bishop2.setScale(1.6f);
+    bishop2.setPosition(boardToWorld(4.5f, -2.0f, 1.6f));
+
+    // === QUEEN ===
+    Model queen("Assets/models/queen.obj");
+    queen.setScale(1.6f);
+    queen.setPosition(boardToWorld(2.5f, 0.0f, 1.6f));
+    
+    // === KING ===
+    Model king("Assets/models/king.obj");
+    king.setScale(1.6f);
+    king.setPosition(boardToWorld(3.5f, 0.5f, 1.6f)); 
+
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -147,13 +168,19 @@ int main() {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // ===== DRAW =====
         camera.update();
         skybox.draw(camera);
         chessboard.draw(camera);
+        // ------ Pieces ------
         tower1.draw(camera);
         tower2.draw(camera);
         knight1.draw(camera);
         knight2.draw(camera);
+        bishop1.draw(camera);
+        bishop2.draw(camera);
+        queen.draw(camera);
+        king.draw(camera);
 
         for (auto& pawn : pawns) {
             pawn->draw(camera);
