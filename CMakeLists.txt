@@ -39,3 +39,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/lib/stb)
 
 # TinyObjLoader
 target_include_directories(${PROJECT_NAME} PRIVATE lib/tinyobjloader)
+target_sources(${PROJECT_NAME} PRIVATE lib/tinyobjloader/tiny_obj_loader.cc)
