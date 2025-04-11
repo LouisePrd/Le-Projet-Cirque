@@ -65,7 +65,7 @@ glm::vec3 boardToWorld(float x, float z, float scale = 1.6f) {
     float offset = (scale - 1.0f) * 0.5f;
     float worldX = x - 4.0f - 1.0f - offset;
     float worldZ = z - 4.0f + 0.5f - offset;
-    return glm::vec3(worldX, -0.25f, worldZ);
+    return glm::vec3(worldX, -0.7f, worldZ);
 }
 
 int main() {
@@ -119,47 +119,92 @@ int main() {
         pawns.push_back(std::move(pawn));
     }
 
-    // === TOUR (TOWER) ===
-    // ------- Tower1
+    // === WHITE TOWER ===
+    // ------- White Tower1
     Model tower1("Assets/models/tower.obj");
     tower1.setScale(1.6f);
-    tower1.setPosition(boardToWorld(-0.5f, -0.5f, 1.6f)); 
-    // ------- Tower2
+    tower1.setPosition(boardToWorld(-0.5f, -0.6f, 1.6f)); 
+    tower1.setColor(glm::vec3(1.0f));  
+    // ------- White Tower2
     Model tower2("Assets/models/tower.obj");
     tower2.setScale(1.6f);
-    tower2.setPosition(boardToWorld(6.5f, -0.5f, 1.6f)); 
-
-    // === CHEVAL (KNIGHT) ===
-    // ------- Knight1
+    tower2.setPosition(boardToWorld(6.5f, -0.6f, 1.6f));
+    tower2.setColor(glm::vec3(1.0f));  
+    // === BLACK TOWER ===
+    // ------- Black Tower1
+    Model blackTower1("Assets/models/tower.obj");
+    blackTower1.setScale(1.6f);
+    blackTower1.setPosition(boardToWorld(-0.5f, 6.4f, 1.6f)); 
+    blackTower1.setColor(glm::vec3(0.1f, 0.1f, 0.1f));
+    // ------- Black Tower2
+    Model blackTower2("Assets/models/tower.obj");
+    blackTower2.setScale(1.6f);
+    blackTower2.setPosition(boardToWorld(6.5f, 6.4f, 1.6f));
+    blackTower2.setColor(glm::vec3(0.1f, 0.1f, 0.1f));
+    
+    // === WHITE KNIGHT ===
+    // ------- White Knight1
     Model knight1("Assets/models/knight.obj");
     knight1.setScale(1.6f);
-    knight1.setPosition(boardToWorld(0.5f, -1.5f, 1.6f));
-
-    // ------- Knight2
+    knight1.setPosition(boardToWorld(0.5f, -1.3f, 1.6f));
+    // ------- White Knight2
     Model knight2("Assets/models/knight.obj");
     knight2.setScale(1.6f);
-    knight2.setPosition(boardToWorld(5.5f, -1.5f, 1.6f));
-
-    // === CRAZY BISHOP ===
-    // ------- CrazyBishop1
+    knight2.setPosition(boardToWorld(5.5f, -1.3f, 1.6f));
+    
+    // === BLACK KNIGHT ===
+    // ------- Black Knight1
+    Model blackKnight1("Assets/models/knight.obj");
+    blackKnight1.setScale(1.6f);
+    blackKnight1.setPosition(boardToWorld(0.5f, 5.7f, 1.6f));
+    blackKnight1.setColor(glm::vec3(0.1f));
+    // ------- Black Knight2
+    Model blackKnight2("Assets/models/knight.obj");
+    blackKnight2.setScale(1.6f);
+    blackKnight2.setPosition(boardToWorld(5.5f, 5.7f, 1.6f));
+    blackKnight2.setColor(glm::vec3(0.1f));
+    // === WHITE CRAZY BISHOP ===
+    // ------- White CrazyBishop1
     Model bishop1("Assets/models/bishop.obj");
     bishop1.setScale(1.6f);
     bishop1.setPosition(boardToWorld(1.5f, -2.0f, 1.6f));
-
-    // ------- CrazyBishop2
+    // ------- White CrazyBishop2
     Model bishop2("Assets/models/bishop.obj");
     bishop2.setScale(1.6f);
     bishop2.setPosition(boardToWorld(4.5f, -2.0f, 1.6f));
 
-    // === QUEEN ===
+    // === BLACK CRAZY BISHOP ===
+    // ------- Black Bishop1
+    Model blackBishop1("Assets/models/bishop.obj");
+    blackBishop1.setScale(1.6f);
+    blackBishop1.setPosition(boardToWorld(1.5f, 5.0f, 1.6f));
+    blackBishop1.setColor(glm::vec3(0.1f));
+
+    // ------- Black Bishop2
+    Model blackBishop2("Assets/models/bishop.obj");
+    blackBishop2.setScale(1.6f);
+    blackBishop2.setPosition(boardToWorld(4.5f, 5.0f, 1.6f));
+    blackBishop2.setColor(glm::vec3(0.1f));
+
+    // === WHITE QUEEN ===
     Model queen("Assets/models/queen.obj");
     queen.setScale(1.6f);
     queen.setPosition(boardToWorld(2.5f, 0.0f, 1.6f));
+    // === BLACK QUEEN ===
+    Model blackQueen("Assets/models/queen.obj");
+    blackQueen.setScale(1.6f);
+    blackQueen.setPosition(boardToWorld(2.5f, 7.0f, 1.6f));
+    blackQueen.setColor(glm::vec3(0.1f));
     
-    // === KING ===
+    // === WHITE KING ===
     Model king("Assets/models/king.obj");
     king.setScale(1.6f);
     king.setPosition(boardToWorld(3.5f, 0.5f, 1.6f)); 
+    // === BLACK KING ===
+    Model blackKing("Assets/models/king.obj");
+    blackKing.setScale(1.6f);
+    blackKing.setPosition(boardToWorld(3.5f, 7.5f, 1.6f));
+    blackKing.setColor(glm::vec3(0.1f));
 
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
@@ -173,14 +218,27 @@ int main() {
         skybox.draw(camera);
         chessboard.draw(camera);
         // ------ Pieces ------
+        // Towers
         tower1.draw(camera);
         tower2.draw(camera);
+        blackTower1.draw(camera);
+        blackTower2.draw(camera);
+        // Knights
         knight1.draw(camera);
         knight2.draw(camera);
+        blackKnight1.draw(camera);
+        blackKnight2.draw(camera);
+        // Bishops
         bishop1.draw(camera);
         bishop2.draw(camera);
+        blackBishop1.draw(camera);
+        blackBishop2.draw(camera);
+        // Queens
         queen.draw(camera);
+        blackQueen.draw(camera);
+        // Kings
         king.draw(camera);
+        blackKing.draw(camera);
 
         for (auto& pawn : pawns) {
             pawn->draw(camera);

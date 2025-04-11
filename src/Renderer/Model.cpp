@@ -7,10 +7,10 @@
 #include <sstream>
 
 Model::Model(const std::string& path) {
+    color = glm::vec3(1.0f); // Couleur par défaut : blanche
+    scale = 1.0f;
     loadOBJ(path);
     setShader("Assets/shaders/simple.vert", "Assets/shaders/simple.frag");
-    scale = 2.5f; 
-    position = glm::vec3(0.5f, 0.0f, 1.5f);
 }
 
 Model::~Model() {
@@ -31,33 +31,41 @@ void Model::setScale(float s) {
     scale = s;
 }
 
+void Model::setColor(const glm::vec3& c) {
+    color = c;
+}
+
 void Model::draw(const Camera& camera) {
     glUseProgram(shader);
 
     glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
-    model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f)); // Lower the model to sit on board
     model = glm::scale(model, glm::vec3(scale));
-
     glm::mat4 view = camera.getViewMatrix();
     glm::mat4 projection = camera.getProjectionMatrix();
 
+    // ENVOI DES MATRICES
     glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+    // ENVOI DE LA COULEUR
+    glUniform3fv(glGetUniformLocation(shader, "overrideColor"), 1, glm::value_ptr(color));
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);
     glBindVertexArray(0);
 }
 
+
 bool Model::loadOBJ(const std::string& path) {
-    std::cout << "[Model] Loading OBJ: " << path << std::endl;
+    // std::cout << "[Model] Loading OBJ: " << path << std::endl;
+
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
     std::string warn, err;
 
-    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str(), nullptr, true);
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str());
     if (!warn.empty()) std::cout << "[tinyobj] Warning: " << warn << std::endl;
     if (!err.empty()) std::cerr << "[tinyobj] Error: " << err << std::endl;
     if (!ret) return false;
