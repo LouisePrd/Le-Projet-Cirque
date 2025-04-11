@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <filesystem>
+#include <vector>
 
 #include "UI/MainMenu.hpp"
 #include "UI/GameUI.hpp"
@@ -22,7 +23,6 @@ Camera camera;
 Board board;
 MainMenu mainMenu;
 GameUI gameUI;
-
 bool tabPressedLastFrame = false;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -60,10 +60,12 @@ void setWorkingDirectoryToProjectRoot() {
     }
 }
 
-glm::vec3 boardToWorld(int x, int z) {
-    float worldX = x - 1.0f - 4.0f;
-    float worldZ = z + 0.5f - 4.0f;
-    return glm::vec3(worldX, 0.0f, worldZ);
+// Convertit des coordonnées d’échiquier (0–7, 0–7)
+glm::vec3 boardToWorld(float x, float z, float scale = 1.6f) {
+    float offset = (scale - 1.0f) * 0.5f;
+    float worldX = x - 4.0f - 1.0f - offset;
+    float worldZ = z - 4.0f + 0.5f - offset;
+    return glm::vec3(worldX, -0.25f, worldZ);
 }
 
 int main() {
@@ -108,10 +110,19 @@ int main() {
 
     ChessBoard chessboard;
 
-    // === Charge et positionne un pion OBJ à la case e2 ===
-    Model pawn("Assets/models/pawn.obj");
-    pawn.setScale(1.4f);                          // Ajuste si nécessaire
-    pawn.setPosition(boardToWorld(4, -1));         // e2 → (4,-1)
+    // === Génère 8 pions blancs sur la rangée 2 (z = -1)
+    std::vector<std::unique_ptr<Model>> pawns;
+    for (int x = 0; x < 8; ++x) {
+        auto pawn = std::make_unique<Model>("Assets/models/pawn.obj");
+        pawn->setScale(1.6f);
+        pawn->setPosition(boardToWorld(x, -1, 1.6f));
+        pawns.push_back(std::move(pawn));
+    }
+
+    // === TOUR (TOWER) ===
+    Model tower("Assets/models/tower.obj");
+    tower.setScale(1.6f);
+    tower.setPosition(boardToWorld(-0.5f, -0.5f, 1.6f)); 
 
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
@@ -123,9 +134,13 @@ int main() {
         camera.update();
         skybox.draw(camera);
         chessboard.draw(camera);
-        pawn.draw(camera);
+        tower.draw(camera);
 
-        // === RENDER IMGUI ===
+        for (auto& pawn : pawns) {
+            pawn->draw(camera);
+        }
+
+        // === IMGUI ===
         ImGuiLayer::beginFrame();
 
         if (currentGameState == GameState::Menu)
