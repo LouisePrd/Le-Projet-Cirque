@@ -29,7 +29,7 @@ void main() {
 ChessBoard::ChessBoard() {
     init();
     modelMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(-4.0f, -0.5f, -4.0f));
+    modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.5f, 0.0f));
     shader = createShader();
 }
 
@@ -42,10 +42,11 @@ ChessBoard::~ChessBoard() {
 void ChessBoard::init() {
     std::vector<float> vertices;
 
+    // Le plateau va de -4 à +4 (taille 8) centré sur 0
     for (int z = 0; z < 8; ++z) {
         for (int x = 0; x < 8; ++x) {
-            float xpos = static_cast<float>(x);
-            float zpos = static_cast<float>(z);
+            float xpos = static_cast<float>(x) - 4.0f; // -4 à +3
+            float zpos = static_cast<float>(z) - 4.0f;
             bool isWhite = (x + z) % 2 == 0;
             glm::vec3 color = isWhite ? glm::vec3(1.0f) : glm::vec3(0.1f);
 
@@ -80,6 +81,7 @@ void ChessBoard::init() {
 
     glBindVertexArray(0);
 }
+
 
 GLuint ChessBoard::createShader() {
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER);

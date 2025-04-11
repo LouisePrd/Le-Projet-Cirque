@@ -1,45 +1,91 @@
 #include "Renderer/Model.hpp"
+#include <tiny_obj_loader.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
+Model::Model(const std::string& path) {
+    loadOBJ(path);
+    setShader("Assets/shaders/simple.vert", "Assets/shaders/simple.frag");
+    scale = 2.5f; 
+    position = glm::vec3(0.5f, 0.0f, 1.5f);
+}
 
 Model::~Model() {
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
-    glDeleteBuffers(1, &ebo);
-    glDeleteProgram(shaderProgram);
+    glDeleteProgram(shader);
+}
+
+void Model::setShader(const std::string& vertexPath, const std::string& fragmentPath) {
+    shader = loadShader(vertexPath, fragmentPath);
+}
+
+void Model::setPosition(const glm::vec3& pos) {
+    position = pos;
+}
+
+void Model::setScale(float s) {
+    scale = s;
 }
 
 void Model::draw(const Camera& camera) {
-    glUseProgram(shaderProgram);
+    glUseProgram(shader);
 
-    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
+    model = glm::translate(model, glm::vec3(0.0f, -0.5f, 0.0f)); // Lower the model to sit on board
+    model = glm::scale(model, glm::vec3(scale));
+
     glm::mat4 view = camera.getViewMatrix();
     glm::mat4 projection = camera.getProjectionMatrix();
 
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, vertexCount);
     glBindVertexArray(0);
 }
 
-void Model::setupBuffers(const std::vector<float>& vertices, const std::vector<unsigned int>& indices) {
+bool Model::loadOBJ(const std::string& path) {
+    std::cout << "[Model] Loading OBJ: " << path << std::endl;
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string warn, err;
+
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str(), nullptr, true);
+    if (!warn.empty()) std::cout << "[tinyobj] Warning: " << warn << std::endl;
+    if (!err.empty()) std::cerr << "[tinyobj] Error: " << err << std::endl;
+    if (!ret) return false;
+
+    std::vector<float> vertices;
+    for (const auto& shape : shapes) {
+        for (const auto& index : shape.mesh.indices) {
+            float vx = attrib.vertices[3 * index.vertex_index + 0];
+            float vy = attrib.vertices[3 * index.vertex_index + 1];
+            float vz = attrib.vertices[3 * index.vertex_index + 2];
+            vertices.push_back(vx);
+            vertices.push_back(vy);
+            vertices.push_back(vz);
+        }
+    }
+
+    vertexCount = vertices.size() / 3;
+    setupBuffers(vertices);
+    return true;
+}
+
+void Model::setupBuffers(const std::vector<float>& vertices) {
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
-    glGenBuffers(1, &ebo);
 
     glBindVertexArray(vao);
-
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -47,35 +93,34 @@ void Model::setupBuffers(const std::vector<float>& vertices, const std::vector<u
     glBindVertexArray(0);
 }
 
-GLuint Model::loadShader(const std::string& vertPath, const std::string& fragPath) {
-    auto loadSource = [](const std::string& path) -> std::string {
+GLuint Model::loadShader(const std::string& vPath, const std::string& fPath) {
+    auto read = [](const std::string& path) -> std::string {
         std::ifstream file(path);
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        return buffer.str();
+        std::stringstream ss;
+        ss << file.rdbuf();
+        return ss.str();
     };
 
-    std::string vertSource = loadSource(vertPath);
-    std::string fragSource = loadSource(fragPath);
+    std::string vCode = read(vPath);
+    std::string fCode = read(fPath);
+    const char* vSrc = vCode.c_str();
+    const char* fSrc = fCode.c_str();
 
-    const char* vShaderCode = vertSource.c_str();
-    const char* fShaderCode = fragSource.c_str();
+    GLuint vert = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vert, 1, &vSrc, nullptr);
+    glCompileShader(vert);
 
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vShaderCode, nullptr);
-    glCompileShader(vertexShader);
+    GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(frag, 1, &fSrc, nullptr);
+    glCompileShader(frag);
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fShaderCode, nullptr);
-    glCompileShader(fragmentShader);
+    GLuint prog = glCreateProgram();
+    glAttachShader(prog, vert);
+    glAttachShader(prog, frag);
+    glLinkProgram(prog);
 
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
+    glDeleteShader(vert);
+    glDeleteShader(frag);
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return program;
+    return prog;
 }

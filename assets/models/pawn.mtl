@@ -1,0 +1,5 @@
+newmtl Default
+Kd 1.0 1.0 1.0  # Couleur diffuse blanche
+Ka 0.0 0.0 0.0  # Ambiante nulle (optionnel)
+Ks 0.0 0.0 0.0  # Spéculaire nulle (optionnel)
+Ns 10.0         # Shininess (optionnel)

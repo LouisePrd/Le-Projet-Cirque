@@ -12,8 +12,8 @@
 #include "Renderer/Skybox.hpp"
 #include "Renderer/Camera.hpp"
 #include "ImGuiLayer/ImGuiLayer.hpp"
-#include "Renderer/Model.hpp"
 #include "Renderer/ChessBoard.hpp"
+#include "Renderer/Model.hpp"
 
 const unsigned int WIDTH = 1280;
 const unsigned int HEIGHT = 720;
@@ -23,6 +23,8 @@ Board board;
 MainMenu mainMenu;
 GameUI gameUI;
 
+bool tabPressedLastFrame = false;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
@@ -30,6 +32,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    bool tabPressedNow = glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS;
+    if (tabPressedNow && !tabPressedLastFrame) {
+        camera.switchMode();
+    }
+    tabPressedLastFrame = tabPressedNow;
 }
 
 void setWorkingDirectoryToProjectRoot() {
@@ -50,6 +58,12 @@ void setWorkingDirectoryToProjectRoot() {
     } else {
         perror("getcwd() error");
     }
+}
+
+glm::vec3 boardToWorld(int x, int z) {
+    float worldX = x - 1.0f - 4.0f;
+    float worldZ = z + 0.5f - 4.0f;
+    return glm::vec3(worldX, 0.0f, worldZ);
 }
 
 int main() {
@@ -94,17 +108,22 @@ int main() {
 
     ChessBoard chessboard;
 
+    // === Charge et positionne un pion OBJ à la case e2 ===
+    Model pawn("Assets/models/pawn.obj");
+    pawn.setScale(1.4f);                          // Ajuste si nécessaire
+    pawn.setPosition(boardToWorld(4, -1));         // e2 → (4,-1)
+
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
-        // === RENDER 3D ===
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        camera.update();    
+        camera.update();
         skybox.draw(camera);
         chessboard.draw(camera);
+        pawn.draw(camera);
 
         // === RENDER IMGUI ===
         ImGuiLayer::beginFrame();
@@ -116,12 +135,10 @@ int main() {
 
         ImGuiLayer::endFrame();
 
-        // === EVENTS ===
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // Cleanup
     ImGuiLayer::shutdown();
     glfwTerminate();
     return 0;

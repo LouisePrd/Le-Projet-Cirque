@@ -1,4 +1,3 @@
-
 #include "Camera.hpp"
 #include <cmath>
 
@@ -9,13 +8,13 @@ Camera::Camera()
 
 void Camera::update() {
     if (currentMode == Mode::ORBITAL) {
-        angle += 0.0005f; 
+        angle += 0.0005f;
         float radius = 8.0f;
         position.x = sin(angle) * radius;
         position.z = cos(angle) * radius;
         position.y = 5.0f;
     } else {
-        position = glm::vec3(6.0f, 12.0f, 6.0f); // vue verticale
+        position = glm::vec3(3.5f, 12.0f, 3.5f); // Vue du dessus centrée
     }
 }
 
