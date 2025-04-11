@@ -120,9 +120,25 @@ int main() {
     }
 
     // === TOUR (TOWER) ===
-    Model tower("Assets/models/tower.obj");
-    tower.setScale(1.6f);
-    tower.setPosition(boardToWorld(-0.5f, -0.5f, 1.6f)); 
+    // ------- Tower1
+    Model tower1("Assets/models/tower.obj");
+    tower1.setScale(1.6f);
+    tower1.setPosition(boardToWorld(-0.5f, -0.5f, 1.6f)); 
+    // ------- Tower2
+    Model tower2("Assets/models/tower.obj");
+    tower2.setScale(1.6f);
+    tower2.setPosition(boardToWorld(6.5f, -0.5f, 1.6f)); 
+
+        // === CHEVAL (KNIGHT) ===
+    // ------- Knight1
+    Model knight1("Assets/models/knight.obj");
+    knight1.setScale(1.6f);
+    knight1.setPosition(boardToWorld(0.5f, -1.5f, 1.6f));
+
+    // ------- Knight2
+    Model knight2("Assets/models/knight.obj");
+    knight2.setScale(1.6f);
+    knight2.setPosition(boardToWorld(5.5f, -1.5f, 1.6f));
 
     // === MAIN LOOP ===
     while (!glfwWindowShouldClose(window)) {
@@ -134,7 +150,10 @@ int main() {
         camera.update();
         skybox.draw(camera);
         chessboard.draw(camera);
-        tower.draw(camera);
+        tower1.draw(camera);
+        tower2.draw(camera);
+        knight1.draw(camera);
+        knight2.draw(camera);
 
         for (auto& pawn : pawns) {
             pawn->draw(camera);
